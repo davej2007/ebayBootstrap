@@ -94,6 +94,7 @@ export class AuctionTableControlService {
   }
 
 }
+
 function matches(entry: IAUCTION, term: string) {
   return entry.auction.description.toLowerCase().includes(term.toLowerCase())
 }
