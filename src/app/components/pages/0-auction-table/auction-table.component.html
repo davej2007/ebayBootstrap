@@ -1,0 +1,54 @@
+<div class="btn-group btn-group-toggle">
+  <button type="button" class="btn btn-primary" (click)='status = StatusShow'>All</button>
+  <button type="button" class="btn btn-primary" *ngFor="let sta of StatusShow" (click)='status = [sta]'>{{StatusList[sta]}}</button>
+</div>
+<br>
+<div class="btn-group btn-group-toggle">
+  <button type="button" class="btn btn-secondary" (click)='category = undefined'>Reset</button>
+  <button type="button" class="btn btn-secondary" *ngFor="let cat of CategoryList; index as i" (click)='category= i'>{{cat}}</button>
+</div>
+<form>
+  <div class="form-group form-inline">
+      Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="tableService.searchTerm"/>
+      <span class="ml-3" *ngIf="tableService.loading$ | async">Loading...</span>
+  </div>
+  <hr>
+  status : {{ status }} === category : {{ category }}
+  <hr>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Status</th>
+      <th scope="col" sortable="datelisted" (sort)="onSort($event)">Date Listed</th>
+      <th scope="col">Category</th>
+      <th scope="col">Item Description</th>
+      <th scope="col">Initial Price</th>
+      <th scope="col">Postage</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Buttons</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let entry of Auctions$ | async">      
+      <td>{{ StatusList[entry.status] }}</td>
+      <td>{{ entry.auction.dateListed | lastDate }}</td>
+      <td>{{ CategoryList[entry.category] }}</td>
+      <td><ngb-highlight [result]="entry.auction.description" [term]="tableService.searchTerm"></ngb-highlight></td>
+      <td>{{ entry.auction.initialPrice | displayPounds  }}</td>
+      <td>{{ entry.auction.postage | displayPounds  }}</td>
+      <td>{{ entry.auction.weight.toFixed(2) }}</td>
+      <td>Buttons</td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination
+      [collectionSize]="(total$ | async)!" [(page)]="tableService.page" [pageSize]="tableService.pageSize">
+    </ngb-pagination>
+    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
+      <option [ngValue]="5">5 items per page</option>
+      <option [ngValue]="10">10 items per page</option>
+      <option [ngValue]="15">15 items per page</option>
+    </select>
+  </div>
+</form>
