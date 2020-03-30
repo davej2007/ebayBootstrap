@@ -13,11 +13,13 @@ interface SearchResult {
 }
 
 interface State {
-  page: number;
-  pageSize: number;
-  searchTerm: string;
-  sortColumn: SortColumn;
-  sortDirection: SortDirection;
+  page: number,
+  pageSize: number,
+  searchTerm: string,
+  sortColumn: SortColumn,
+  sortDirection: SortDirection,
+  category : number,
+  status : Array<number>
 }
 
 const compare = (v1: number, v2: number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
@@ -49,7 +51,9 @@ export class TableControlService {
     pageSize: 10,
     searchTerm: '',
     sortColumn: '',
-    sortDirection: 'desc'
+    sortDirection: 'desc',
+    category : undefined,
+    status : []
   };
 
   constructor(private pipe: DecimalPipe) {
@@ -75,13 +79,17 @@ export class TableControlService {
   get page() { return this._state.page; }
   get pageSize() { return this._state.pageSize; }
   get searchTerm() { return this._state.searchTerm; }
+  get category() { return this._state.category; }
+  get status() { return this._state.status; }
 
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
-
+  set category(category: number) { this._set({category}); }
+  set status(status: Array<number>) { this._set({status}); }
+  
   private _set(patch: Partial<State>) {
     Object.assign(this._state, patch);
     this._search$.next();

@@ -6,7 +6,7 @@ import { AuctionTableComponent } from './components/pages/0-auction-table/auctio
 
 
 const routes: Routes = [ 
-  { path: '',   component: AuctionTableComponent, data: {status: [1, 0,2,3,4,5]}, resolve:{info:AuctionInfoService}  },
+  { path: '',   component: AuctionTableComponent, data: {status: [1,0,2,3,4,5]}, resolve:{info:AuctionInfoService}  },
   { path: '**', component: PageNotFoundComponent }
 ];
 

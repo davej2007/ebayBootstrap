@@ -1,11 +1,11 @@
 <div class="btn-group btn-group-toggle">
-  <button type="button" class="btn btn-primary" (click)='status = StatusShow'>All</button>
-  <button type="button" class="btn btn-primary" *ngFor="let sta of StatusShow" (click)='status = [sta]'>{{StatusList[sta]}}</button>
+  <button type="button" class="btn btn-primary" (click)='tableService.status = StatusShow'>All</button>
+  <button type="button" class="btn btn-primary" *ngFor="let sta of StatusShow" (click)='tableService.status = [sta]'>{{StatusList[sta]}}</button>
 </div>
 <br>
 <div class="btn-group btn-group-toggle">
-  <button type="button" class="btn btn-secondary" (click)='category = undefined'>Reset</button>
-  <button type="button" class="btn btn-secondary" *ngFor="let cat of CategoryList; index as i" (click)='category= i'>{{cat}}</button>
+  <button type="button" class="btn btn-secondary" (click)='tableService.category = undefined'>Reset</button>
+  <button type="button" class="btn btn-secondary" *ngFor="let cat of CategoryList; index as i" (click)='tableService.category= i'>{{cat}}</button>
 </div>
 <form>
   <div class="form-group form-inline">
@@ -13,7 +13,7 @@
       <span class="ml-3" *ngIf="tableService.loading$ | async">Loading...</span>
   </div>
   <hr>
-  status : {{ status }} === category : {{ category }}
+  status : {{ tableService.status }} === category : {{ tableService.category }}
   <hr>
   <table class="table">
     <thead>

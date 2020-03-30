@@ -28,16 +28,15 @@ export class AuctionTableComponent implements OnInit{
 
   public StatusList : any = STATUS;
   public CategoryList : any = CATEGORIES;
-  public StatusShow : [Number] ;
+  public StatusShow : [number];
   public display : {month:number, year:number} = {month:null, year:null}
-  public category :Number;
-  public status :[Number];
 
   ngOnInit(){
     this.activatedRoute.data.subscribe(
       data=>{
+        console.log(data)
         this.StatusShow = data.status;
-        this.status=this.StatusShow
+        this.tableService.status=this.StatusShow
         if(data.info.success){
           this.tableService.AUCTIONS = data.info.auctions;
         } else {
