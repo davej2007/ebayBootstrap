@@ -12,7 +12,9 @@ import { DisplayPoundsPipe } from './components/custom/pipe/display-pounds.pipe'
 import { LastDatePipe } from './components/custom/pipe/display-date.pipe';
 import { DecimalPipe } from '@angular/common';
 import { NgbdSortableHeader } from './components/custom/directive/sortable.directive';
-import { AuctionTableComponent } from './components/pages/0-auction-table/auction-table.component';
+import { NavbarComponent } from './components/pages/0-navbar/navbar.component';
+import { AuctionTableComponent } from './components/pages/1-auction-table/auction-table.component';
+import { SoldTableComponent } from './components/pages/2-sold-table/sold-table.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { AuctionTableComponent } from './components/pages/0-auction-table/auctio
     DisplayPoundsPipe,
     LastDatePipe,
     AuctionTableComponent,
-    NgbdSortableHeader
+    NgbdSortableHeader,
+    NavbarComponent,
+    SoldTableComponent
   ],
   imports: [
     BrowserModule,

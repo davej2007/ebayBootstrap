@@ -1,31 +1,18 @@
-import { Injectable, PipeTransform } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 
-import { SortColumn, SortDirection } from '../custom/directive/sortable.directive';
+import { SortDirection } from '../custom/directive/sortable.directive';
+
 import { IAUCTION } from '../custom/interface/auction';
-
-interface SearchResult {
-  entries: IAUCTION[];
-  total: number;
-}
-
-interface State {
-  page: number,
-  pageSize: number,
-  searchTerm: string,
-  sortColumn: SortColumn,
-  sortDirection: SortDirection,
-  category : number,
-  status : Array<number>
-}
+import { ISTATE, ISEARCHRESULT } from '../custom/interface/state';
 
 const compare = (v1: number, v2: number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
-function sort(entries: IAUCTION[], column: SortColumn, direction: string): IAUCTION[] {
-  if (direction === '' || column === '') {
+function sort(entries: IAUCTION[],  direction: string): IAUCTION[] {
+  if (direction === '' ) {
     return entries;
   } else {
     return [...entries].sort((a, b) => {
@@ -35,22 +22,18 @@ function sort(entries: IAUCTION[], column: SortColumn, direction: string): IAUCT
   }
 }
 
-function matches(entry: IAUCTION, term: string, pipe: PipeTransform) {
-  return entry.auction.description.toLowerCase().includes(term.toLowerCase())
-}
-
 @Injectable({providedIn: 'root'})
-export class TableControlService {
+
+export class AuctionTableControlService {
   private _loading$ = new BehaviorSubject<boolean>(true);
   private _search$ = new Subject<void>();
   private _auctions$ = new BehaviorSubject<IAUCTION[]>([]);
   private _total$ = new BehaviorSubject<number>(0);
 
-  private _state: State = {
+  private _state: ISTATE = {
     page: 1,
     pageSize: 10,
     searchTerm: '',
-    sortColumn: '',
     sortDirection: 'desc',
     category : undefined,
     status : []
@@ -85,23 +68,24 @@ export class TableControlService {
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
-  set sortColumn(sortColumn: SortColumn) { this._set({sortColumn}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
   set category(category: number) { this._set({category}); }
   set status(status: Array<number>) { this._set({status}); }
   
-  private _set(patch: Partial<State>) {
+  private _set(patch: Partial<ISTATE>) {
     Object.assign(this._state, patch);
     this._search$.next();
   }
-  private _search(): Observable<SearchResult> {
-    const { sortColumn, sortDirection, pageSize, page, searchTerm} = this._state;
+  private _search(): Observable<ISEARCHRESULT> {
+    const { sortDirection, pageSize, page, searchTerm} = this._state;
 
     // 1. sort
-    let entries = sort(this.AUCTIONS,  sortColumn, sortDirection);
+    let entries = sort(this.AUCTIONS, sortDirection);
 
     // 2. filter
-    entries = entries.filter(entry => matches(entry, searchTerm, this.pipe));
+    entries = entries.filter(entry => matches(entry, searchTerm));
+    entries = entries.filter(entry => categoryCheck(entry, this.category));
+    entries = entries.filter(entry => statusCheck(entry, this.status));
     const total = entries.length;
 
     // 3. paginate
@@ -109,4 +93,21 @@ export class TableControlService {
     return of({entries, total});
   }
 
+}
+function matches(entry: IAUCTION, term: string) {
+  return entry.auction.description.toLowerCase().includes(term.toLowerCase())
+}
+function categoryCheck(entry: IAUCTION, cat: number) {
+  if (cat === undefined || entry.category == cat) {
+    return true
+  } else {
+    return false
+  };
+}
+function statusCheck(entry: IAUCTION, sta: Array<number>) {
+  if(sta.indexOf(entry.status)!==-1){
+    return true
+  } else {
+    return false
+  };
 }

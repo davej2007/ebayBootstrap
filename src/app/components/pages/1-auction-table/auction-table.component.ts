@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { NgbdSortableHeader, SortEvent } from '../../custom/directive/sortable.directive';
 
 import { IAUCTION } from '../../custom/interface/auction';
-import { TableControlService } from '../../service/table-control.service';
+import { AuctionTableControlService } from '../../service/auction-table-control.service';
 import { STATUS, CATEGORIES } from '../../custom/defaultValues';
 
 @Component({
@@ -20,7 +20,7 @@ export class AuctionTableComponent implements OnInit{
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   constructor(
-    public tableService: TableControlService,
+    public tableService: AuctionTableControlService,
     private activatedRoute:ActivatedRoute) {
       this.Auctions$ = tableService.auctions$;
       this.total$ = tableService.total$;
@@ -57,7 +57,7 @@ export class AuctionTableComponent implements OnInit{
       }
     });
 
-    this.tableService.sortColumn = column;
+    // this.tableService.sortColumn = column;
     this.tableService.sortDirection = direction;
   }
 }

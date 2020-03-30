@@ -7,14 +7,12 @@
   <button type="button" class="btn btn-secondary" (click)='tableService.category = undefined'>Reset</button>
   <button type="button" class="btn btn-secondary" *ngFor="let cat of CategoryList; index as i" (click)='tableService.category= i'>{{cat}}</button>
 </div>
+<hr>
 <form>
   <div class="form-group form-inline">
       Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="tableService.searchTerm"/>
       <span class="ml-3" *ngIf="tableService.loading$ | async">Loading...</span>
   </div>
-  <hr>
-  status : {{ tableService.status }} === category : {{ tableService.category }}
-  <hr>
   <table class="table">
     <thead>
     <tr>
