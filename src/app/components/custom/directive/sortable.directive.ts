@@ -1,10 +1,12 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { IAUCTION } from '../interface/auction';
 
-export type SortDirection = 'desc' | 'asc' | '';
-const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': 'asc' , '': 'desc'};
+export type SortColumn = keyof IAUCTION | '';
+export type SortDirection = 'asc' | 'desc' | '';
+const rotate: {[key: string]: SortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
 
 export interface SortEvent {
+  column: SortColumn;
   direction: SortDirection;
 }
 
@@ -19,11 +21,12 @@ export interface SortEvent {
 
 export class NgbdSortableHeader {
 
+  @Input() sortable: SortColumn = '';
   @Input() direction: SortDirection = '';
   @Output() sort = new EventEmitter<SortEvent>();
 
   rotate() {
     this.direction = rotate[this.direction];
-    this.sort.emit({ direction: this.direction});
+    this.sort.emit({column: this.sortable, direction: this.direction});
   }
 }

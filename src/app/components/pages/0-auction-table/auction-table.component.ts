@@ -50,14 +50,15 @@ export class AuctionTableComponent implements OnInit{
     )
   }
 
-  onSort({direction}: SortEvent) {
+  onSort({column, direction}: SortEvent) {
     // resetting other headers
     this.headers.forEach(header => {
-      {
-        header.direction = 'desc';
+      if (header.sortable !== column) {
+        header.direction = '';
       }
     });
 
+    this.tableService.sortColumn = column;
     this.tableService.sortDirection = direction;
   }
 }
