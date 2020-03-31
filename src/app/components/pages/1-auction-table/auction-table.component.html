@@ -1,14 +1,17 @@
 <h1>
-Auction
+  Auction
 </h1>
+<button class="btn btn-danger" (click)="openNewAuction()">Create New Auction</button>
+<br>
+<br>
 <div class="btn-group btn-group-toggle">
-  <button type="button" class="btn btn-primary" (click)='tableService.status = StatusShow'>All</button>
-  <button type="button" class="btn btn-primary" *ngFor="let sta of StatusShow" (click)='tableService.status = [sta]'>{{StatusList[sta]}}</button>
+  <button type="button" class="btn btn-outline-danger" [class.active]="checkStatusActive(-1)" (click)='tableService.status = StatusShow'>All</button>
+  <button type="button" class="btn btn-outline-primary" [class.active]="checkStatusActive(sta)" *ngFor="let sta of StatusShow" (click)='tableService.status = [sta]'>{{StatusList[sta]}}</button>
 </div>
 <br>
 <div class="btn-group btn-group-toggle">
-  <button type="button" class="btn btn-secondary" (click)='tableService.category = undefined'>Reset</button>
-  <button type="button" class="btn btn-secondary" *ngFor="let cat of CategoryList; index as i" (click)='tableService.category= i'>{{cat}}</button>
+  <button type="button" class="btn btn-outline-danger" [class.active]="tableService.category == undefined" (click)='tableService.category = undefined'>Reset</button>
+  <button type="button" class="btn btn-outline-warning" [class.active]="tableService.category == i" *ngFor="let cat of CategoryList; index as i" (click)='tableService.category = i'>{{cat}}</button>
 </div>
 <hr>
 <form>
@@ -16,40 +19,45 @@ Auction
       Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="tableService.searchTerm"/>
       <span class="ml-3" *ngIf="tableService.loading$ | async">Loading...</span>
   </div>
-  <table class="table">
-    <thead>
+</form>
+<table class="table">
+  <thead>
     <tr>
-      <th scope="col">Status</th>
-      <th scope="col" sortable="datelisted" (sort)="onSort($event)">Date Listed</th>
-      <th scope="col">Category</th>
+      <th scope="col" *ngIf='tableService.status.length>1'>Status</th>
+      <th scope="col" style='text-align: center;'colspan="2" sortable="datelisted" (sort)="onSort($event)">Date Listed</th>
+      <th scope="col" *ngIf='tableService.category == undefined'>Category</th>
       <th scope="col">Item Description</th>
       <th scope="col">Initial Price</th>
       <th scope="col">Postage</th>
       <th scope="col">Weight</th>
       <th scope="col">Buttons</th>
     </tr>
-    </thead>
-    <tbody>
+  </thead>
+  <tbody>
     <tr *ngFor="let entry of Auctions$ | async">      
-      <td>{{ StatusList[entry.status] }}</td>
-      <td>{{ entry.auction.dateListed | lastDate }}</td>
-      <td>{{ CategoryList[entry.category] }}</td>
+      <td *ngIf='tableService.status.length>1'>{{ StatusList[entry.status] }}</td>
+      <td>{{ entry.auction.dateListed | chooseDate : 0}}</td>
+      <td>{{ entry.auction.dateListed | chooseDate : 1}}</td>
+      <td *ngIf='tableService.category == undefined'>{{ CategoryList[entry.category] }}</td>
       <td><ngb-highlight [result]="entry.auction.description" [term]="tableService.searchTerm"></ngb-highlight></td>
       <td>{{ entry.auction.initialPrice | displayPounds  }}</td>
       <td>{{ entry.auction.postage | displayPounds  }}</td>
       <td>{{ entry.auction.weight.toFixed(2) }}</td>
-      <td>Buttons</td>
+      <td>
+        <button class="bth btn-secondary" *ngIf='[0,1].indexOf(entry.status) != -1' (click)="openUnsold(entry)">Un/Re</button>
+        <button class="bth btn-secondary" *ngIf='[1].indexOf(entry.status) != -1' (click)="openSold(entry)">Sold</button>
+        <button class="bth btn-danger" [routerLink]="['/details', entry._id]">Details</button>
+      </td>
     </tr>
-    </tbody>
-  </table>
-  <div class="d-flex justify-content-between p-2">
-    <ngb-pagination
-      [collectionSize]="(total$ | async)!" [(page)]="tableService.page" [pageSize]="tableService.pageSize">
-    </ngb-pagination>
-    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
-      <option [ngValue]="5">5 items per page</option>
-      <option [ngValue]="10">10 items per page</option>
-      <option [ngValue]="15">15 items per page</option>
-    </select>
-  </div>
-</form>
+  </tbody>
+</table>
+<div class="d-flex justify-content-between p-2"> <!-- Pagination -->
+  <ngb-pagination
+    [collectionSize]="(total$ | async)!" [(page)]="tableService.page" [pageSize]="tableService.pageSize">
+  </ngb-pagination>
+  <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="tableService.pageSize">
+    <option [ngValue]="5">5 items per page</option>
+    <option [ngValue]="10">10 items per page</option>
+    <option [ngValue]="15">15 items per page</option>
+  </select>
+</div>

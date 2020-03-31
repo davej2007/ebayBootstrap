@@ -7,7 +7,7 @@ import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortDirection } from '../custom/directive/sortable.directive';
 
 import { IAUCTION } from '../custom/interface/auction';
-import { ISTATE, ISEARCHRESULT } from '../custom/interface/state';
+import { ISTATE, ISEARCHRESULT, IDISPLAYDATE } from '../custom/interface/state';
 
 const compare = (v1: number, v2: number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -16,7 +16,7 @@ function sort(entries: IAUCTION[],  direction: string): IAUCTION[] {
     return entries;
   } else {
     return [...entries].sort((a, b) => {
-      const res = compare(a.auction.dateListed[a.auction.dateListed.length-1], b.auction.dateListed[b.auction.dateListed.length-1] );
+      const res = compare(a.sold.dateSold, b.sold.dateSold);
       return direction === 'asc' ? res : -res;
     });
   }
@@ -36,7 +36,8 @@ export class SoldTableControlService {
       searchTerm: '',
       sortDirection: 'desc',
       category : undefined,
-      status : []
+      status : [],
+      displayDate : {month:null, year:null}
     };
   
     constructor(private pipe: DecimalPipe) {
@@ -64,6 +65,7 @@ export class SoldTableControlService {
     get searchTerm() { return this._state.searchTerm; }
     get category() { return this._state.category; }
     get status() { return this._state.status; }
+    get displayDate() { return this._state.displayDate; }
   
     set page(page: number) { this._set({page}); }
     set pageSize(pageSize: number) { this._set({pageSize}); }
@@ -71,7 +73,8 @@ export class SoldTableControlService {
     set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
     set category(category: number) { this._set({category}); }
     set status(status: Array<number>) { this._set({status}); }
-    
+    set displayDate(displayDate: IDISPLAYDATE) { this._set({displayDate}); }
+
     private _set(patch: Partial<ISTATE>) {
       Object.assign(this._state, patch);
       this._search$.next();
@@ -86,6 +89,7 @@ export class SoldTableControlService {
       entries = entries.filter(entry => matches(entry, searchTerm));
       entries = entries.filter(entry => categoryCheck(entry, this.category));
       entries = entries.filter(entry => statusCheck(entry, this.status));
+      entries = entries.filter(entry => displayDateCheck(entry, this.displayDate));
       const total = entries.length;
   
       // 3. paginate
@@ -111,3 +115,22 @@ function statusCheck(entry: IAUCTION, sta: Array<number>) {
     return false
   };
 }
+function displayDateCheck(entry:IAUCTION, dd:IDISPLAYDATE){
+  if(dd.month==null && dd.year==null) {
+    return true;
+  } else {
+    let startDate:number = 0; let finishDate = 0;
+    startDate=Date.parse(new Date(dd.year, dd.month).toString());
+    if(dd.month==11){
+      finishDate=Date.parse(new Date(dd.year+1, 0).toString())-86400000
+    } else {
+      finishDate=Date.parse(new Date(dd.year, dd.month+1).toString())-86400000
+    }
+    if(startDate<= entry.sold.dateSold && finishDate>entry.sold.dateSold){
+      return true;
+    } else {
+      return false
+    }
+  }
+  ;
+}  

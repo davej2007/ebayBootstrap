@@ -7,7 +7,7 @@ import { debounceTime, delay, switchMap, tap } from 'rxjs/operators';
 import { SortDirection } from '../custom/directive/sortable.directive';
 
 import { IAUCTION } from '../custom/interface/auction';
-import { ISTATE, ISEARCHRESULT } from '../custom/interface/state';
+import { ISTATE, ISEARCHRESULT, IDISPLAYDATE } from '../custom/interface/state';
 
 const compare = (v1: number, v2: number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
 
@@ -36,7 +36,8 @@ export class AuctionTableControlService {
     searchTerm: '',
     sortDirection: 'desc',
     category : undefined,
-    status : []
+    status : [],
+    displayDate : {month:null, year:null}
   };
 
   constructor(private pipe: DecimalPipe) {
@@ -64,14 +65,16 @@ export class AuctionTableControlService {
   get searchTerm() { return this._state.searchTerm; }
   get category() { return this._state.category; }
   get status() { return this._state.status; }
-
+  get displayDate() { return this._state.displayDate; }
+  
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
   set category(category: number) { this._set({category}); }
   set status(status: Array<number>) { this._set({status}); }
-  
+  set displayDate(displayDate: IDISPLAYDATE) { this._set({displayDate}); }
+
   private _set(patch: Partial<ISTATE>) {
     Object.assign(this._state, patch);
     this._search$.next();

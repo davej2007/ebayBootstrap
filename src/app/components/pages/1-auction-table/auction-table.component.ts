@@ -1,11 +1,16 @@
 import { Component, QueryList, ViewChildren, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdSortableHeader, SortEvent } from '../../custom/directive/sortable.directive';
 
+import { STATUS, CATEGORIES } from '../../custom/defaultValues';
 import { IAUCTION } from '../../custom/interface/auction';
 import { AuctionTableControlService } from '../../service/auction-table-control.service';
-import { STATUS, CATEGORIES } from '../../custom/defaultValues';
+import { AuctionService } from '../../service/auction.service';
+import { NewAuctionModalContent } from './MODALS/0-NewAuction/newAuction';
+import { UnSoldModalContent } from './MODALS/1-UnSold/unSold';
+import { SoldModalContent } from './MODALS/2-Sold/sold';
 
 @Component({
   selector: 'auctionTable',
@@ -20,8 +25,12 @@ export class AuctionTableComponent implements OnInit{
   @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   constructor(
-    public tableService: AuctionTableControlService,
-    private activatedRoute:ActivatedRoute) {
+    public  tableService: AuctionTableControlService,
+    private activatedRoute:ActivatedRoute,
+    public modalService: NgbModal,
+    public _auction:AuctionService,
+    public _Router:Router
+    ) {
       this.Auctions$ = tableService.auctions$;
       this.total$ = tableService.total$;
     }
@@ -34,17 +43,16 @@ export class AuctionTableComponent implements OnInit{
   ngOnInit(){
     this.activatedRoute.data.subscribe(
       data=>{
-        console.log(data)
         this.StatusShow = data.status;
         this.tableService.status=this.StatusShow
         if(data.info.success){
           this.tableService.AUCTIONS = data.info.auctions;
         } else {
-          console.log(data)
+          alert(data.message)
         }
       },
-      err =>{
-        console.log(err)
+      err =>  {
+        alert('Server Error : '+err.message+' If this continues Please contact Systems.');
       }
     )
   }
@@ -59,5 +67,69 @@ export class AuctionTableComponent implements OnInit{
 
     // this.tableService.sortColumn = column;
     this.tableService.sortDirection = direction;
+  }
+  checkStatusActive(st:any){
+    if(this.tableService.status.length==1 && this.tableService.status[0] != st) {
+      return false
+    } else if(this.tableService.status.length>1 && st!=-1) {
+      return false
+    } else {
+      return true
+    }
+  }
+  // Modal Buttons
+  openUnsold(auction:IAUCTION){
+    const modalRef = this.modalService.open(UnSoldModalContent, {backdrop:'static'});
+    modalRef.componentInstance.id = auction._id;
+    modalRef.componentInstance.description = auction.auction.description;
+    modalRef.result.then(
+      res => {
+        if(res.success){
+          this.reloadTableData()
+        } else {
+          console.log('Error from Modal : ', res)
+        }
+      }
+    );
+  }
+  openNewAuction() {
+    this.modalService.open(NewAuctionModalContent, {backdrop:'static', size: 'xl'}).result.then(
+      res => {
+        console.log(res)
+        if(res.success){
+          this.reloadTableData()
+        } else {
+          console.log('Error from Modal : ', res)
+        }
+      },
+      reason => { console.log('Create Cancelled.') }
+    );
+  }
+  openSold(auction:IAUCTION){
+    console.log(auction._id);
+    const modalRef = this.modalService.open(SoldModalContent, {backdrop:'static'});
+    modalRef.componentInstance.id = auction._id;
+    modalRef.componentInstance.description = auction.auction.description;
+    modalRef.result.then(
+      res => {
+        if(res.success){
+          this.reloadTableData()
+        } else {
+          console.log('Error from Modal : ', res)
+        }
+      }
+    );
+  }
+  reloadTableData(){
+    this._auction.getAuctionDetails().subscribe(
+      data=>{
+        if(data.success){
+          this.tableService.AUCTIONS = data.auctions;
+        } else {
+          console.log(data.message)
+        }
+      },
+      err=>{console.log(err)}
+      )
   }
 }

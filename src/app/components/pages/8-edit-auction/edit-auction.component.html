@@ -1,0 +1,94 @@
+<h1>{{ AUCTION.auction.description }}</h1>
+<ul class="nav nav-tabs nav-justified">
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="page == 0" (click)='page=0'>Auction Details</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="page == 1" (click)='page=1'>Sold Details</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="page == 2" (click)='page=2'>Courier Details</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" [class.active]="page == 3" (click)='page=3'>Fees Details</a>
+    </li>
+</ul>
+<div class="formSurround" *ngIf='page==0'>
+    <h4>Auction Details</h4>
+    <form [formGroup]='auctionDetailsForm'>
+        <!-- dateListed -->
+        <div class="form-group row">
+            <label for="date" class="col-sm-3 col-form-label">Date Listed</label>
+            <div class="col-sm-9">
+                <!-- <input [class.is-invalid]='(dateListed.invalid) && dateListed.touched' [class.is-valid]='dateListed.valid && dateListed.touched'
+                formControlName='dateListed' type="date" class="form-control" id="date"
+                placeholder="Date Listed"> -->
+            </div>
+        </div>
+        <!-- description -->
+        <div class="form-group row">
+            <label for="description" class="col-sm-3 col-form-label">Item Description</label>
+            <div class="col-sm-9">
+                <input [class.is-invalid]='description.invalid && description.touched' [class.is-valid]='description.valid && description.touched'
+                formControlName='description' type="text" class="form-control" id="description"
+                placeholder="Item Description">
+            </div>
+        </div>
+        <!-- initialPrice -->
+        <div class="form-group row">
+            <label for="price" class="col-sm-3 col-form-label">Initial Price</label>
+            <div class="col-sm-9">
+                <input [class.is-invalid]='(initialPrice.invalid) && initialPrice.touched' [class.is-valid]='initialPrice.valid && initialPrice.touched'
+                formControlName='initialPrice' type="number" class="form-control" id="price"
+                placeholder="Initial Price">
+            </div>
+        </div>
+        <!-- category --> <!-- Droppdown List-->
+        <div class="form-group row">
+        <label for="category" class="col-sm-3 col-form-label">Category</label>
+        <div class="col-sm-9">
+            <select formControlName='category' placeholder="Please Select Category">
+            <option *ngFor="let category of CategoryList; index as i" [ngValue]='i'>{{category}}</option>
+            </select>
+        </div>
+        </div>
+    
+        <!-- postagePaid -->
+        <div class="form-group row">
+        <label for="postage" class="col-sm-3 col-form-label">Postage Paids</label>
+        <div class="col-sm-9">
+            <input [class.is-invalid]='(postagePaid.invalid) && postagePaid.touched' [class.is-valid]='postagePaid.valid && postagePaid.touched'
+            formControlName='postagePaid' type="number" class="form-control" id="postage"
+            placeholder="Postage Paid">
+        </div>
+        </div>
+        <!-- weight -->
+        <div class="form-group row">
+        <label for="weight" class="col-sm-3 col-form-label">Weight Of Item</label>
+        <div class="col-sm-9">
+            <input [class.is-invalid]='(weight.invalid) && weight.touched' [class.is-valid]='weight.valid && weight.touched'
+            formControlName='weight' type="number" class="form-control" id="weight"
+            placeholder="Weight Of Item">
+        </div>
+        </div>
+        <div *ngIf='!successMsg && !errorMsg'>
+            {{ processing }}
+            <button type="button" class="btn btn-outline-danger" [disabled]='processing' (click)="submitAuctionDetails(auctionDetailsForm.value)">Update</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+</div>
+<div class="formSurround" *ngIf='page==1'>
+    <h4>Buyers Details</h4>
+</div>
+<div class="formSurround" *ngIf='page==2'>
+    <h4>Courier Details</h4>
+</div>
+<div class="formSurround" *ngIf='page==3'>
+    <h4>Fees Details</h4>
+</div>
+
+<div class='messages'> <!-- messages -->
+    <div class="alert alert-success" role="alert" *ngIf='successMsg'>{{ successMsg }}</div>
+    <div class="alert alert-danger" role="alert" *ngIf='errorMsg'>{{ errorMsg }}</div>
+</div>

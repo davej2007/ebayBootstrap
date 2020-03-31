@@ -1,14 +1,19 @@
 <h1>
     Sold Auction
 </h1>
-<div class="btn-group btn-group-toggle">
-    <button type="button" class="btn btn-primary" (click)='tableService.status = StatusShow'>All</button>
-    <button type="button" class="btn btn-primary" *ngFor="let sta of StatusShow" (click)='tableService.status = [sta]'>{{StatusList[sta]}}</button>
+<div class="btn-group btn-group-toggle">    <!-- Status -->
+    <button type="button" class="btn btn-outline-danger" [class.active]="checkStatusActive(-1)" (click)='tableService.status = StatusShow'>All</button>
+    <button type="button" class="btn btn-outline-primary" [class.active]="checkStatusActive(sta)" *ngFor="let sta of StatusShow" (click)='tableService.status = [sta]'>{{StatusList[sta]}}</button>
 </div>
 <br>
-<div class="btn-group btn-group-toggle">
-    <button type="button" class="btn btn-secondary" (click)='tableService.category = undefined'>Reset</button>
-    <button type="button" class="btn btn-secondary" *ngFor="let cat of CategoryList; index as i" (click)='tableService.category= i'>{{cat}}</button>
+<div class="btn-group btn-group-toggle">    <!-- Category -->
+    <button type="button" class="btn btn-outline-danger" [class.active]="tableService.category == undefined" (click)='tableService.category = undefined'>Reset</button>
+    <button type="button" class="btn btn-outline-warning" [class.active]="tableService.category == i" *ngFor="let cat of CategoryList; index as i" (click)='tableService.category = i'>{{cat}}</button>
+</div>
+<br>
+<div class="btn-group btn-group-toggle">    <!-- Year & Month -->
+    <button type="button" class="btn btn-outline-danger" [class.active]="checkDisplayDate({month:null,year:null})" (click)='tableService.displayDate = {month:null,year:null}'>All</button>
+    <button type="button" class="btn btn-outline-dark" [class.active]="checkDisplayDate(dis)" *ngFor="let dis of DisplayShow" (click)='tableService.displayDate = dis'>{{MONTHS[dis.month]}} {{dis.year}}</button>
 </div>
 <hr>
 <form>
@@ -18,27 +23,39 @@
     </div>
     <table class="table">
     <thead>
-    <tr>
-        <th scope="col">Status</th>
-        <th scope="col" sortable="datelisted" (sort)="onSort($event)">Date Listed</th>
-        <th scope="col">Category</th>
-        <th scope="col">Item Description</th>
-        <th scope="col">Initial Price</th>
-        <th scope="col">Postage</th>
-        <th scope="col">Weight</th>
-        <th scope="col">Buttons</th>
-    </tr>
+        <tr>
+            <th scope="col" *ngIf='tableService.status.length>1'>Status</th>
+            <th scope="col">Date Sold</th>
+            <th scope="col" *ngIf='tableService.category == undefined'>Category</th>
+            <th scope="col">Description</th>
+            <th scope="col">Sold For</th>
+            <th scope="col">Postage Paid</th>
+            <th scope="col">Courier</th>
+            <th scope="col">Tracking</th>
+            <th scope="col">Courier Cost</th>
+            <th scope="col">Fees</th>    
+            <th scope="col">Buttons</th>
+        </tr>
     </thead>
     <tbody>
     <tr *ngFor="let entry of Auctions$ | async">      
-        <td>{{ StatusList[entry.status] }}</td>
-        <td>{{ entry.auction.dateListed | lastDate }}</td>
-        <td>{{ CategoryList[entry.category] }}</td>
-        <td><ngb-highlight [result]="entry.auction.description" [term]="tableService.searchTerm"></ngb-highlight></td>
-        <td>{{ entry.auction.initialPrice | displayPounds  }}</td>
-        <td>{{ entry.auction.postage | displayPounds  }}</td>
-        <td>{{ entry.auction.weight.toFixed(2) }}</td>
-        <td>Buttons</td>
+        <td *ngIf='tableService.status.length>1'>{{ StatusList[entry.status] }}</td>
+        <td>{{ entry.sold.dateSold | date:'dd-MM-yy' }}</td>
+        <td *ngIf='tableService.category == undefined'>{{ CategoryList[entry.category] }}</td>
+          <td>{{ entry.auction.description }}</td>
+          <td>{{ entry.sold.price | displayPounds }}</td>
+          <td>{{ entry.paid.postage | displayPounds }}</td>
+          <td>{{ entry.courier.company }}</td>
+          <td>{{ entry.courier.trackingNo }}</td>
+          <td><span *ngIf='entry.courier.cost>0'>{{ entry.courier.cost | displayPounds }}</span></td>
+          <td>{{ entry.fees.finalFee | displayPounds }} - {{ entry.fees.postageFee | displayPounds }} - {{ entry.fees.paypalFee | displayPounds }}</td>
+          <td>       
+            <button class="bth btn-secondary" *ngIf='[2].indexOf(entry.status) != -1' (click)="openPaid(entry)">Paid</button>
+            <button class="bth btn-secondary" *ngIf='[3].indexOf(entry.status) != -1' (click)="openPost(entry)">Post</button>
+            <button class="bth btn-secondary" *ngIf='[3,4,5].indexOf(entry.status) != -1' (click)="openFees(entry)">Fees</button>
+            <button class="bth btn-secondary" *ngIf='[4].indexOf(entry.status) != -1' (click)="openDelivery(entry)">Delivered</button>
+            <button class="bth btn-danger" [routerLink]="['/details', entry._id]">Details</button>
+          </td>
     </tr>
     </tbody>
     </table>
