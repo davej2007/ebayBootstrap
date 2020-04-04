@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuctionService } from 'src/app/components/service/auction.service';
+import { ConvertDate } from 'src/app/components/custom/directive/fuctions';
 
 @Component({
   selector: 'sold-modal-content',
@@ -12,6 +13,7 @@ import { AuctionService } from 'src/app/components/service/auction.service';
 export class SoldModalContent implements OnInit {
   @Input() id:String;
   @Input() description:String;
+  @Input() lastDateListed:number
   constructor(
     public activeModal: NgbActiveModal,
     private fb:FormBuilder,
@@ -24,15 +26,21 @@ export class SoldModalContent implements OnInit {
   get postCode()  { return this.SoldForm.get('postCode');   }
   
 
-    ngOnInit(){}
+    ngOnInit(){
+      this.dateListed = ConvertDate(this.lastDateListed)
+      this.dateSold.setValue(this.dateListed)
+    }
     // Variables
     public errorMsg:String = '';
     public successMsg:String = '';
     public processing:Boolean = false;
+    public dateListed : string;
+    public dateMsg : string = null;
+    public dateValid = false;
 
       // Form Definition
   SoldForm = this.fb.group({
-    dateSold: [null, [Validators.required]],
+    dateSold: ['', [Validators.required]],
     auction:['', [Validators.required]],
     price:[null, [Validators.required]],
     userName:[null, [Validators.required]],
@@ -53,6 +61,19 @@ export class SoldModalContent implements OnInit {
     this.price.enable();
     this.userName.enable();
     this.postCode.enable();    
+  }
+  checkDate(){
+    let lastDateValue = Date.parse(new Date(this.lastDateListed).toDateString())
+    let today = Date.parse(new Date().toDateString())
+    let dateValue = Date.parse(new Date(this.dateSold.value).toDateString());
+    if(lastDateValue<=dateValue && dateValue <= today){
+      this.dateMsg = null;
+      this.dateValid = true;
+    } else {
+      this.dateMsg = 'Invalid Date Entered';
+      console.log('invalid date')
+      this.dateValid = false;      
+    }
   }
   submit(soldAuction){
     this.disableForm();

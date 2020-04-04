@@ -8,9 +8,10 @@
     <div class="form-group row">
       <label for="date" class="col-sm-3 col-form-label">Date Sold</label>
       <div class="col-sm-9">
-        <input [class.is-invalid]='(dateSold.invalid) && dateSold.touched' [class.is-valid]='dateSold.valid && dateSold.touched'
+        <input [class.is-invalid]='(dateSold.invalid || !dateValid) && dateSold.touched' [class.is-valid]='dateSold.valid && dateSold.touched && dateValid'
         formControlName='dateSold' type="date" class="form-control" id="date"
-        placeholder="Date Sold">
+        placeholder="Date Sold" (blur)='checkDate()'>
+        {{ dateMsg }}
       </div>
     </div>
     <!-- auction -->
@@ -53,7 +54,7 @@
 </div>
 <div class="modal-footer">
   <div *ngIf='!successMsg && !errorMsg'>
-    <button type="button" class="btn btn-outline-dark" [disabled]='processing' (click)="submit(SoldForm.value)">Sold</button>
+    <button type="button" class="btn btn-outline-dark" [disabled]='processing || !dateValid' (click)="submit(SoldForm.value)">Sold</button>
     <button type="button" class="btn btn-outline-dark" [disabled]='processing' (click)="activeModal.close('cancel')">Cancel</button>
   </div>
   <div class='messages'> <!-- messages -->

@@ -33,8 +33,8 @@ imports: [NgbModule, ...],
 3. ng s -o ==== ng serve 
 4. ng build --prod ==== ng build
 
-        err =>  {
-          alert('Server Error : '+err.message+' If this continues Please contact Systems.');
-        }
+err =>  {
+  alert('Server Error : '+err.message+' If this continues Please contact Systems.');
+}
 
 findIndex((i: any ) => i.job === job)

@@ -39,4 +39,7 @@ export class AuctionService {
   findEbayAuctionNumber(data:any){
     return this._HTTP.post<any>(environment.apiAuctions+'/findEbayAuction',{auction:data});
   }
+  updateAuctionByID(data:any){
+    return this._HTTP.post<any>(environment.apiAuctions+'/updateAuctionbyID',{auction:data});
+  }
 }

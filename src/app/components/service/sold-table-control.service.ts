@@ -122,11 +122,11 @@ function displayDateCheck(entry:IAUCTION, dd:IDISPLAYDATE){
     let startDate:number = 0; let finishDate = 0;
     startDate=Date.parse(new Date(dd.year, dd.month).toString());
     if(dd.month==11){
-      finishDate=Date.parse(new Date(dd.year+1, 0).toString())-86400000
+      finishDate=Date.parse(new Date(dd.year+1, 0).toString())-86400000/2
     } else {
-      finishDate=Date.parse(new Date(dd.year, dd.month+1).toString())-86400000
+      finishDate=Date.parse(new Date(dd.year, dd.month+1).toString())-86400000/2
     }
-    if(startDate<= entry.sold.dateSold && finishDate>entry.sold.dateSold){
+    if(startDate<= entry.sold.dateSold && finishDate>=entry.sold.dateSold){
       return true;
     } else {
       return false

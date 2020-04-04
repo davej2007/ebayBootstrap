@@ -82,6 +82,7 @@ export class AuctionTableComponent implements OnInit{
     const modalRef = this.modalService.open(UnSoldModalContent, {backdrop:'static'});
     modalRef.componentInstance.id = auction._id;
     modalRef.componentInstance.description = auction.auction.description;
+    modalRef.componentInstance.lastDateListed = auction.auction.dateListed[auction.auction.dateListed.length-1];
     modalRef.result.then(
       res => {
         if(res.success){
@@ -106,9 +107,9 @@ export class AuctionTableComponent implements OnInit{
     );
   }
   openSold(auction:IAUCTION){
-    console.log(auction._id);
     const modalRef = this.modalService.open(SoldModalContent, {backdrop:'static'});
     modalRef.componentInstance.id = auction._id;
+    modalRef.componentInstance.lastDateListed = auction.auction.dateListed[auction.auction.dateListed.length-1];
     modalRef.componentInstance.description = auction.auction.description;
     modalRef.result.then(
       res => {

@@ -7,6 +7,7 @@ import { AuctionDetailComponent } from './components/pages/7-auction-detail/auct
 import { PageNotFoundComponent } from './components/pages/9-page-not-found/page-not-found.component';
 import { AuctionDetailService } from './components/resolver/auction-details.service';
 import { EditAuctionComponent } from './components/pages/8-edit-auction/edit-auction.component';
+import { EbayFeesComponent } from './components/pages/3-ebay-fees/ebay-fees.component';
 
 const routes: Routes = [
   {path:'active',       component: AuctionTableComponent,
@@ -19,7 +20,7 @@ const routes: Routes = [
                         resolve:{info:AuctionDetailService}},
   {path:'edit/:id',     component:EditAuctionComponent,
                         resolve:{info:AuctionDetailService}},
-  // {path:'ebayFees',     component:EbayFeesComponent},
+  {path:'ebayFees',     component:EbayFeesComponent},
   // {path:'paypalFees',   component:PaypalFeesComponent},
   { path: '',
     redirectTo: '/active',

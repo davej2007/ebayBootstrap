@@ -51,7 +51,7 @@ import { FeesModalContent } from './components/pages/2-sold-table/MODALS/Fees/fe
     AuctionDetailComponent,
     EditAuctionComponent, 
     PageNotFoundComponent,
-    
+    // pipes
     DisplayPoundsPipe,
     FirstLastDatePipe,
     DisplayDatePipe,
