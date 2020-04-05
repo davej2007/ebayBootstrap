@@ -29,10 +29,10 @@
             <th scope="col" *ngIf='tableService.category == undefined'>Category</th>
             <th scope="col">Description</th>
             <th scope="col">Sold For</th>
-            <th scope="col">Postage Paid</th>
+            <th scope="col">Postage<br>Paid</th>
             <th scope="col">Courier</th>
             <th scope="col">Tracking</th>
-            <th scope="col">Courier Cost</th>
+            <th scope="col">Courier<br>Cost</th>
             <th scope="col">Fees</th>    
             <th scope="col">Buttons</th>
         </tr>
@@ -42,7 +42,7 @@
         <td *ngIf='tableService.status.length>1'>{{ StatusList[entry.status] }}</td>
         <td>{{ entry.sold.dateSold | date:'dd-MM-yy' }}</td>
         <td *ngIf='tableService.category == undefined'>{{ CategoryList[entry.category] }}</td>
-          <td>{{ entry.auction.description }}</td>
+          <td class='description'>{{ entry.auction.description }}</td>
           <td>{{ entry.sold.price | displayPounds }}</td>
           <td>{{ entry.paid.postage | displayPounds }}</td>
           <td>{{ entry.courier.company }}</td>
@@ -50,11 +50,11 @@
           <td><span *ngIf='entry.courier.cost>0'>{{ entry.courier.cost | displayPounds }}</span></td>
           <td>{{ entry.fees.finalFee | displayPounds }} - {{ entry.fees.postageFee | displayPounds }} - {{ entry.fees.paypalFee | displayPounds }}</td>
           <td>       
-            <button class="bth btn-secondary" *ngIf='[2].indexOf(entry.status) != -1' (click)="openPaid(entry)">Paid</button>
-            <button class="bth btn-secondary" *ngIf='[3].indexOf(entry.status) != -1' (click)="openPost(entry)">Post</button>
-            <button class="bth btn-secondary" *ngIf='[3,4,5].indexOf(entry.status) != -1' (click)="openFees(entry)">Fees</button>
-            <button class="bth btn-secondary" *ngIf='[4].indexOf(entry.status) != -1' (click)="openDelivery(entry)">Delivered</button>
-            <button class="bth btn-danger" [routerLink]="['/details', entry._id]">Details</button>
+            <button class="bth btn-secondary btn-sm" *ngIf='[2].indexOf(entry.status) != -1' (click)="openPaid(entry)">Paid</button>
+            <button class="bth btn-secondary btn-sm" *ngIf='[3].indexOf(entry.status) != -1' (click)="openPost(entry)">Post</button>
+            <button class="bth btn-secondary btn-sm" *ngIf='[3,4,5].indexOf(entry.status) != -1' (click)="openFees(entry)">Fees</button>
+            <button class="bth btn-secondary btn-sm" *ngIf='[4].indexOf(entry.status) != -1' (click)="openDelivery(entry)">Delivered</button>
+            <button class="bth btn-danger btn-sm" [routerLink]="['/details', entry._id]">Details</button>
           </td>
     </tr>
     </tbody>

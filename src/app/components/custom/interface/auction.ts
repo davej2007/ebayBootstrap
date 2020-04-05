@@ -20,11 +20,9 @@ export interface IAUCTION {
       postage         : number,
       transactionNo   : String
   },
-  fees :{
-      finalFee : number,
-      postageFee : number,
-      paypalFee : number,
-  },
+  fee : {   finalFee        : { cost  : number, promo : Boolean, set : Boolean},
+            postageFee      : { cost  : number, set   : Boolean },
+            paypalFee       : { cost  : number, set   : Boolean }},
   courier : {
       company:String,
       trackingNo:String,

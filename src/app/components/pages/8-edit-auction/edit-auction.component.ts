@@ -56,9 +56,9 @@ export class EditAuctionComponent implements OnInit {
         this.methodPayment.setValue(this.AUCTION.paid.paidBy);
         this.paypalTransactionNo.setValue(this.AUCTION.paid.transactionNo);
         // fees
-        this.ebayFinalFee.setValue(this.AUCTION.fees.finalFee);
-        this.ebayPostageFee.setValue(this.AUCTION.fees.postageFee);
-        this.paypalFee.setValue(this.AUCTION.fees.paypalFee);
+        this.ebayFinalFee.setValue(this.AUCTION.fee.finalFee.cost);
+        this.ebayPostageFee.setValue(this.AUCTION.fee.postageFee.cost);
+        this.paypalFee.setValue(this.AUCTION.fee.paypalFee.cost);
         // courier
         this.courierCompany.setValue(this.AUCTION.courier.company);
         this.courierTrackingNo.setValue(this.AUCTION.courier.trackingNo);
@@ -162,9 +162,9 @@ export class EditAuctionComponent implements OnInit {
   submitFeeCourierDetails(data:any){
     this.processing = true;
     // fees
-    this.AUCTION.fees.finalFee = data.ebayFinalFee;
-    this.AUCTION.fees.postageFee = data.ebayPostageFee;
-    this.AUCTION.fees.paypalFee = data.paypalFee;
+    this.AUCTION.fee.finalFee.cost = data.ebayFinalFee;
+    this.AUCTION.fee.postageFee.cost = data.ebayPostageFee;
+    this.AUCTION.fee.paypalFee.cost = data.paypalFee;
     // courier
     this.AUCTION.courier.company = data.courierCompany
     this.AUCTION.courier.trackingNo = data.courierTrackingNo
