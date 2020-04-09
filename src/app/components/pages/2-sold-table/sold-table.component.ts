@@ -12,7 +12,6 @@ import { AuctionService } from '../../service/auction.service';
 import { PaidModalContent } from './MODALS/3-Paid/paid';
 import { PostModalContent } from './MODALS/4-Post/post';
 import { DeliveryModalContent } from './MODALS/5-Delivery/delivery';
-import { FeesModalContent } from './MODALS/Fees/fees';
 
 @Component({
   selector: 'sold-table',
@@ -105,6 +104,8 @@ export class SoldTableComponent implements OnInit {
     const modalRef = this.modalService.open(PaidModalContent, {backdrop:'static'});
     modalRef.componentInstance.id = auction._id;
     modalRef.componentInstance.description = auction.auction.description;
+    modalRef.componentInstance.buyerName = auction.sold.buyer.name;
+    modalRef.componentInstance.buyerPostCode = auction.sold.buyer.postCode;
     modalRef.result.then(
       res => {
         if(res.success){
@@ -115,12 +116,11 @@ export class SoldTableComponent implements OnInit {
       }
     );
   }
-  
   openPost(auction:IAUCTION){
-    console.log(auction._id);
     const modalRef = this.modalService.open(PostModalContent, {backdrop:'static'});
     modalRef.componentInstance.id = auction._id;
     modalRef.componentInstance.description = auction.auction.description;
+    modalRef.componentInstance.method = auction.courier.company;
     modalRef.componentInstance.buyerName = auction.sold.buyer.name;
     modalRef.componentInstance.buyerPostCode = auction.sold.buyer.postCode;
     modalRef.result.then(
@@ -148,28 +148,15 @@ export class SoldTableComponent implements OnInit {
       }
     );
   }
-  openFees(auction:IAUCTION){
-    const modalRef = this.modalService.open(FeesModalContent, {backdrop:'static'});
-    modalRef.componentInstance.id = auction._id;
-    modalRef.componentInstance.description = auction.auction.description;
-    modalRef.componentInstance.final = auction.fees.finalFee;
-    modalRef.componentInstance.postage = auction.fees.postageFee;
-    modalRef.componentInstance.paypal = auction.fees.paypalFee;
-    modalRef.result.then(
-      res => {
-        if(res.success){
-          this.reloadTableData()
-        } else {
-          console.log('Error from Modal : ', res)
-        }
-      }
-    );
-  }
   reloadTableData(){
+    let old:number = this.tableService.category;
     this._auction.getAuctionDetails().subscribe(
       data=>{
         if(data.success){
+          this.tableService.category = undefined;
           this.tableService.AUCTIONS = data.auctions;
+          this.tableService.category = old;
+          this.tableService.searchTerm = '';
         } else {
           console.log(data.message)
         }

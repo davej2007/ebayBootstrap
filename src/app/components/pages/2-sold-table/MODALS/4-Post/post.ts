@@ -11,6 +11,7 @@ import { AuctionService } from 'src/app/components/service/auction.service';
 export class PostModalContent implements OnInit {
   @Input() id:String;
   @Input() description:String;
+  @Input() method:String
   @Input() buyerName:String;
   @Input() buyerPostCode:String;
 
@@ -28,6 +29,7 @@ export class PostModalContent implements OnInit {
   ngOnInit(){
     if(this.buyerName !=null) this.name.setValue(this.buyerName)
     if(this.buyerPostCode !=null) this.postCode.setValue(this.buyerPostCode)
+    if(this.method !=null) this.company.setValue(this.method)    
   }
   // Variables
   public errorMsg:String = '';
@@ -60,14 +62,17 @@ export class PostModalContent implements OnInit {
   }
   submit(PostDetails:any){
     this.disableForm();
+    if (PostDetails.trackingNo == null) PostDetails.trackingNo=' '
+    if (PostDetails.name == null) PostDetails.name=' '
+    if (PostDetails.postCode == null) PostDetails.postCode=' '
     if (PostDetails.courierCost==null) PostDetails.courierCost = 0;
     let postAuctionData = {
       id : this.id,
       company : PostDetails.company,
-      trackingNo : PostDetails.trackingNo,
+      trackingNo : PostDetails.trackingNo.trim(),
       courierCost : PostDetails.courierCost,
-      name : PostDetails.name,
-      postCode : PostDetails.postCode
+      name : PostDetails.name.trim(),
+      postCode : PostDetails.postCode.trim()
     }
     this._Auction.updatePostAuction(postAuctionData).subscribe(
       data => {
@@ -79,7 +84,7 @@ export class PostModalContent implements OnInit {
             this.enableForm();
           }, 2000);
         } else {
-          this.successMsg='Auction Posted : '+data.auction.auction.description;
+          this.successMsg='Auction Dispatched : '+data.auction.auction.description;
           setTimeout(()=>{
             this.successMsg = '';
             this.activeModal.close(data);

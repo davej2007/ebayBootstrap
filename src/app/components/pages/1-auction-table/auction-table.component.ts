@@ -122,10 +122,14 @@ export class AuctionTableComponent implements OnInit{
     );
   }
   reloadTableData(){
+    let old:number = this.tableService.category;
     this._auction.getAuctionDetails().subscribe(
       data=>{
         if(data.success){
+          this.tableService.category = undefined;
           this.tableService.AUCTIONS = data.auctions;
+          this.tableService.category = old;
+          this.tableService.searchTerm = '';
         } else {
           console.log(data.message)
         }

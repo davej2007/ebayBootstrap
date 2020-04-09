@@ -16,11 +16,22 @@
       </div>
     </div>
     <!-- paypalTransaction -->
-    <div class="form-group row">
+    <div class="form-group row" *ngIf='paidBy.value=="PayPal"'>
       <label for="paypal" class="col-sm-3 col-form-label">Paypal Ref Number</label>
       <div class="col-sm-9">
         <input formControlName='paypalTransaction' type="text" class="form-control" id="paypal"
         placeholder="Pay Pal Reference Number">
+      </div>
+    </div>
+    <!-- company --> <!-- Droppdown List-->
+    <div class="form-group row">
+      <label for="company" class="col-sm-3 col-form-label">Courier Company</label>
+      <div class="col-sm-9">
+        <select formControlName='company' placeholder="Please Select Courier Company">
+          <option value='Collect'>Collect</option>
+          <option value='RoyalMail'>Royal Mail</option>
+          <option value='Hermes'>Hermes</option>
+        </select>
       </div>
     </div>
     <!-- Postage Paid -->

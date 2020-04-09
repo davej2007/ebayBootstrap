@@ -33,7 +33,8 @@
             <th scope="col">Courier</th>
             <th scope="col">Tracking</th>
             <th scope="col">Courier<br>Cost</th>
-            <th scope="col">Fees</th>    
+            <th scope="col">Fees</th>
+            <th scope="col">Total</th>
             <th scope="col">Buttons</th>
         </tr>
     </thead>
@@ -48,11 +49,11 @@
           <td>{{ entry.courier.company }}</td>
           <td>{{ entry.courier.trackingNo }}</td>
           <td><span *ngIf='entry.courier.cost>0'>{{ entry.courier.cost | displayPounds }}</span></td>
-          <td>{{ entry.fees.finalFee | displayPounds }} - {{ entry.fees.postageFee | displayPounds }} - {{ entry.fees.paypalFee | displayPounds }}</td>
+          <td>{{ entry.fee | displayFees }}</td>
+          <td>{{ entry | displayTotalIncome }}</td>
           <td>       
             <button class="bth btn-secondary btn-sm" *ngIf='[2].indexOf(entry.status) != -1' (click)="openPaid(entry)">Paid</button>
             <button class="bth btn-secondary btn-sm" *ngIf='[3].indexOf(entry.status) != -1' (click)="openPost(entry)">Post</button>
-            <button class="bth btn-secondary btn-sm" *ngIf='[3,4,5].indexOf(entry.status) != -1' (click)="openFees(entry)">Fees</button>
             <button class="bth btn-secondary btn-sm" *ngIf='[4].indexOf(entry.status) != -1' (click)="openDelivery(entry)">Delivered</button>
             <button class="bth btn-danger btn-sm" [routerLink]="['/details', entry._id]">Details</button>
           </td>

@@ -30,6 +30,7 @@ imports: [NgbModule, ...],
 1. ng g c components/pages/page-not-found --skipTests=true --prefix 
 1. ng g c components/pages/section0/employeeProfile --skipTests=true --prefix 
 2. ng g s components/service/auth --skipTests=true 
+3. ng g pipe components/custom/pipe/display.... --skipTests=true 
 3. ng s -o ==== ng serve 
 4. ng build --prod ==== ng build
 

@@ -1,12 +1,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">ebayAuctionNo</th>
-            <th scope="col">description</th>
-            <th scope="col">buyerUserName</th>
-            <th scope="col">buyerName</th>
-            <th scope="col">finalValueFee</th>
-            <th scope="col">postageFee</th>
+            <th scope="col">Auction<br>Number</th>
+            <th scope="col">Description</th>
+            <th scope="col">Buyer<br>UserName</th>
+            <th scope="col">Buyer<br>Name</th>
+            <th scope="col">Final<br>Value Fee</th>
+            <th scope="col">Postage<br>Fee</th>
         </tr>
     </thead>
     <tbody>
@@ -63,9 +63,18 @@
                 <p class="form-control is-valid" id="buyerUserName">{{ buyerUserName.value }}</p>
             </div>
         </div>
-    </div>    
+    </div>
+    <!-- Promo Rate    -->
+    <div class="form-group row" *ngIf='ebayAuctionValid'>
+        <label for='promo' class="col-sm-3 col-form-label">Promotional Offer</label>
+        <div class="col-sm-9">
+          <div class="form-check">
+            <input class="form-check-input" formControlName='promo' type="checkbox" id="promo">
+          </div>
+        </div>
+    </div>
     <!-- finalValueFee -->
-    <div class="form-group row">
+    <div class="form-group row" *ngIf='finalFeeSet.value && ebayAuctionValid'>
         <label for="finalValueFee" class="col-sm-3 col-form-label">Ebay Final Value Fee</label>
         <div class="col-sm-9">
             <input formControlName='finalValueFee' type="number" class="form-control" id="finalValueFee"
@@ -73,7 +82,7 @@
         </div>
     </div>
     <!-- postageFee -->
-    <div class="form-group row">
+    <div class="form-group row" *ngIf='(postageSet.value && !promo.value && ebayAuctionValid)'>
         <label for="postageFee" class="col-sm-3 col-form-label">Ebay Postage Fee</label>
         <div class="col-sm-9">
             <input formControlName='postageFee' type="number" class="form-control" id="postageFee"
@@ -87,7 +96,7 @@
     <button type="button" class="btn btn-outline-dark" *ngIf='EbayFeeList.length>0 && !uploadComplete' [disabled]='processing || EbayFeeList.length == 0' (click)="update()">Save All Fees</button>
     <button type='button' class='btn btn-outline-danger' *ngIf='uploadComplete' [disabled]='processing || EbayFeeList.length == 0'  (click)="complete()">Completed</button>  
 </div>
-  <div class='messages'> <!-- messages -->
-      <div class="alert alert-success" role="alert" *ngIf='successMsg'>{{ successMsg }}</div>
-      <div class="alert alert-danger" role="alert" *ngIf='errorMsg'>{{ errorMsg }}</div>
-  </div>
+<div class='messages'> <!-- messages -->
+    <div class="alert alert-success" role="alert" *ngIf='successMsg'>{{ successMsg }}</div>
+    <div class="alert alert-danger" role="alert" *ngIf='errorMsg'>{{ errorMsg }}</div>
+</div>

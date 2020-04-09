@@ -66,7 +66,7 @@ export class NewAuctionModalContent implements OnInit {
     this.disableForm();
     let newAuctionData = {
       dateListed:Date.parse(newAuction.dateListed),
-      description:newAuction.description,
+      description:newAuction.description.trim(),
       initialPrice:newAuction.initialPrice,
       postagePaid:newAuction.postagePaid,
       category:newAuction.category,

@@ -30,7 +30,8 @@ import { SoldModalContent } from './components/pages/1-auction-table/MODALS/2-So
 import { PaidModalContent } from './components/pages/2-sold-table/MODALS/3-Paid/paid';
 import { PostModalContent } from './components/pages/2-sold-table/MODALS/4-Post/post';
 import { DeliveryModalContent } from './components/pages/2-sold-table/MODALS/5-Delivery/delivery';
-import { FeesModalContent } from './components/pages/2-sold-table/MODALS/Fees/fees';
+import { DisplayFeesPipe } from './components/custom/pipe/display-fees.pipe';
+import { DisplayTotalIncomePipe } from './components/custom/pipe/display-total-income.pipe';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,6 @@ import { FeesModalContent } from './components/pages/2-sold-table/MODALS/Fees/fe
       PaidModalContent,
       PostModalContent,
       DeliveryModalContent,
-      FeesModalContent,
     EbayFeesComponent,
     PaypalFeesComponent,
     AuctionDetailComponent,
@@ -56,6 +56,8 @@ import { FeesModalContent } from './components/pages/2-sold-table/MODALS/Fees/fe
     FirstLastDatePipe,
     DisplayDatePipe,
     DisplayWeightPipe,
+    DisplayFeesPipe,
+    DisplayTotalIncomePipe,
   ],
   imports: [
     BrowserModule,
@@ -70,8 +72,7 @@ import { FeesModalContent } from './components/pages/2-sold-table/MODALS/Fees/fe
     SoldModalContent,
     PaidModalContent,
     PostModalContent,
-    DeliveryModalContent,
-    FeesModalContent
+    DeliveryModalContent
   ],
   providers: [ 
     DecimalPipe,

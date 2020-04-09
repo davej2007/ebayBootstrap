@@ -11,6 +11,9 @@ import { AuctionService } from 'src/app/components/service/auction.service';
 export class PaidModalContent implements OnInit {
   @Input() id:String;
   @Input() description:String;
+  @Input() buyerName:String;
+  @Input() buyerPostCode:String;
+
   constructor(
     public activeModal: NgbActiveModal,
     private fb:FormBuilder,
@@ -18,30 +21,35 @@ export class PaidModalContent implements OnInit {
   // form Get
   get paidBy()  { return this.PaidForm.get('paidBy');   }
   get paypalTransaction()   { return this.PaidForm.get('paypalTransaction');   }
+  get company()  { return this.PaidForm.get('company');   }  
   get postage()  { return this.PaidForm.get('postage');   }  
   get name()  { return this.PaidForm.get('name');   }  
   get postCode()  { return this.PaidForm.get('postCode');   }  
   
-    ngOnInit(){}
+    ngOnInit(){
+      this.name.setValue(this.buyerName);
+      this.postCode.setValue(this.buyerPostCode)
+    }
     // Variables
     public errorMsg:String = '';
     public successMsg:String = '';
     public processing:Boolean = false;
-    public paidByMethods:any = ['Cash', 'Bank Transfer', 'PayPal']
 
       // Form Definition
   PaidForm = this.fb.group({
     paidBy            : ['', [Validators.required]],
     paypalTransaction : [ null ],
+    company           : [ null ],
     postage           : [ null ],
     name              : [ null ],
-    postCode              : [ null ]
+    postCode          : [ null ]
   })
   disableForm(){    
     this.processing = true;
     this.paidBy.disable();
     this.paypalTransaction.disable();
     this.postage.disable();
+    this.company.disable();
     this.name.disable();
     this.postCode.disable();
   }
@@ -50,18 +58,23 @@ export class PaidModalContent implements OnInit {
     this.paidBy.enable();
     this.paypalTransaction.enable();
     this.postage.enable();
+    this.company.enable();
     this.name.enable();
     this.postCode.enable();
   }
   submit(paidDetails:any){
     this.disableForm();
+    if(paidDetails.paypalTransaction == null) paidDetails.paypalTransaction=' ';
+    if(paidDetails.name == null) paidDetails.name=' ';
+    if(paidDetails.postCode == null) paidDetails.postCode=' ';
     let paidAuctionData = {
       id : this.id,
       paidBy : paidDetails.paidBy,
-      paypalTransaction : paidDetails.paypalTransaction,
+      paypalTransaction : paidDetails.paypalTransaction.trim(),
+      company: paidDetails.company,
       postagePaid : paidDetails.postage,
-      buyerName : paidDetails.name,
-      buyerPostCode:paidDetails.postCode
+      buyerName : paidDetails.name.trim(),
+      buyerPostCode : paidDetails.postCode.trim().toUpperCase()
     }
     this._Auction.updatePaidAuction(paidAuctionData).subscribe(
       data => {

@@ -14,8 +14,18 @@
         {{ dateMsg }}
       </div>
     </div>
-    <!-- auction -->
+    <!-- private sale --> <!-- Droppdown List-->
     <div class="form-group row">
+      <label for="private" class="col-sm-3 col-form-label">Sale Type</label>
+      <div class="col-sm-9">
+        <select formControlName='private' >
+          <option value=false>Ebay Sale</option>
+          <option value=true>Private Sale</option>
+        </select>
+      </div>
+    </div>
+    <!-- auction -->
+    <div class="form-group row" *ngIf='!private.value'>
       <label for="auction" class="col-sm-3 col-form-label">Item Auction Number</label>
       <div class="col-sm-9">
         <input [class.is-invalid]='(auction.invalid) && auction.touched' [class.is-valid]='auction.valid && auction.touched'

@@ -16,7 +16,7 @@
         </div>
       </div>
       <!-- trackingNo -->
-      <div class="form-group row">
+      <div class="form-group row" *ngIf='company.value!="Collect"'>
         <label for="trackingNo" class="col-sm-3 col-form-label">Tracking Number</label>
         <div class="col-sm-9">
           <input formControlName='trackingNo' type="text" class="form-control" id="trackingNo"
@@ -24,7 +24,7 @@
         </div>
       </div>
       <!-- courierCost -->
-      <div class="form-group row">
+      <div class="form-group row"  *ngIf='company.value!="Collect"'>
         <label for="courierCost" class="col-sm-3 col-form-label">Courier Cost Paid</label>
         <div class="col-sm-9">
           <input  formControlName='courierCost' type="number" class="form-control" id="courierCost"
@@ -53,7 +53,7 @@
   </div>
   <div class="modal-footer">
     <div *ngIf='!successMsg && !errorMsg'>
-      <button type="button" class="btn btn-outline-dark" [disabled]='processing' (click)="submit(PostForm.value)">Paid</button>
+      <button type="button" class="btn btn-outline-dark" [disabled]='processing' (click)="submit(PostForm.value)">Dispatch</button>
       <button type="button" class="btn btn-outline-dark" [disabled]='processing' (click)="activeModal.close('cancel')">Cancel</button>
     </div>
     <div class='messages'> <!-- messages -->

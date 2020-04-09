@@ -39,6 +39,9 @@ export class AuctionService {
   findEbayAuctionNumber(data:any){
     return this._HTTP.post<any>(environment.apiAuctions+'/findEbayAuction',{auction:data});
   }
+  findPaypalTransactionNumber(data:any){
+    return this._HTTP.post<any>(environment.apiAuctions+'/findPaypalTransaction',{auction:data});
+  }
   updateAuctionByID(data:any){
     return this._HTTP.post<any>(environment.apiAuctions+'/updateAuctionbyID',{auction:data});
   }

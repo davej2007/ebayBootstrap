@@ -20,6 +20,7 @@ export class SoldModalContent implements OnInit {
     public _Auction:AuctionService) {}
   // form Get
   get dateSold()  { return this.SoldForm.get('dateSold');   }
+  get private()   { return this.SoldForm.get('private');   }
   get auction()   { return this.SoldForm.get('auction');   }
   get price()     { return this.SoldForm.get('price');   }
   get userName()  { return this.SoldForm.get('userName');   }
@@ -41,6 +42,7 @@ export class SoldModalContent implements OnInit {
       // Form Definition
   SoldForm = this.fb.group({
     dateSold: ['', [Validators.required]],
+    private : [false],
     auction:['', [Validators.required]],
     price:[null, [Validators.required]],
     userName:[null, [Validators.required]],
@@ -49,6 +51,7 @@ export class SoldModalContent implements OnInit {
   disableForm(){    
     this.processing = true;
     this.dateSold.disable();
+    this.private.disable();
     this.auction.disable();
     this.price.disable();
     this.userName.disable();
@@ -57,6 +60,7 @@ export class SoldModalContent implements OnInit {
   enableForm(){
     this.processing = false;
     this.dateSold.enable();
+    this.private.enable();
     this.auction.enable();
     this.price.enable();
     this.userName.enable();
@@ -77,17 +81,22 @@ export class SoldModalContent implements OnInit {
   }
   submit(soldAuction){
     this.disableForm();
+    soldAuction.auction +=' ';
+    soldAuction.userName +=' ';
+    soldAuction.postCode +=' ';
+    
     let soldAuctionData = {
       id:this.id,
       dateSold:Date.parse(soldAuction.dateSold),
-      auction:soldAuction.auction,
+      private:soldAuction.private,
+      auction:soldAuction.auction.trim(),
       price:soldAuction.price,
       postagePaid:soldAuction.postagePaid,
-      userName:soldAuction.userName
+      userName:soldAuction.userName.trim(),
+      postCode:soldAuction.postCode.trim().toUpperCase()
     }
     this._Auction.updateSoldAuction(soldAuctionData).subscribe(
       data => {
-        console.log(data);
         if(!data.success){
           this.disableForm()
           this.errorMsg = data.message;
