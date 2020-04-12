@@ -22,7 +22,7 @@
     </tbody>
 </table>
 <hr>
-<h4>Enter Ebay Auction Fees</h4>
+<h4>Enter Paypal Fees</h4>
 <form [formGroup]='FeeForm'>
     <!-- ebayAuctionNo -->
     <div class="form-group row">
@@ -30,8 +30,8 @@
         <div class="col-sm-9">
             <input [class.is-invalid]='(ebayAuctionNo.invalid || !ebayAuctionValid) && ebayAuctionNo.touched'
                 [class.is-valid]='ebayAuctionNo.valid && ebayAuctionValid && ebayAuctionNo.touched'
-            formControlName='ebayAuctionNo' type="text" class="form-control" id="ebayAuctionNo"
-            placeholder="Ebay Auction Number" (blur)='findEbayAuction()'>
+                formControlName='ebayAuctionNo' type="text" class="form-control" id="ebayAuctionNo"
+                placeholder="Ebay Auction Number / Paypal Transaction No" (blur)='findEbayAuction()'>
             <!-- Messages -->
           <ul *ngIf='(ebayAuctionNo.invalid || !ebayAuctionValid) && ebayAuctionNo.touched '>
             <li *ngIf='ebayAuctionNo.errors?.required' class='text-danger'>Ebay Auction Number Is Required</li>

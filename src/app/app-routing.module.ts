@@ -9,6 +9,9 @@ import { AuctionDetailService } from './components/resolver/auction-details.serv
 import { EditAuctionComponent } from './components/pages/8-edit-auction/edit-auction.component';
 import { EbayFeesComponent } from './components/pages/3-ebay-fees/ebay-fees.component';
 import { PaypalFeesComponent } from './components/pages/4-paypal-fees/paypal-fees.component';
+import { ConfirmDeliveryComponent } from './components/pages/5-confirm-delivery/confirm-delivery.component';
+import { MonthlyTotalsComponent } from './components/pages/6-monthly-totals/monthly-totals.component';
+import { AuctionUnDeliveredService } from './components/resolver/auction-un-delivered.service';
 
 const routes: Routes = [
   {path:'active',       component: AuctionTableComponent,
@@ -23,6 +26,9 @@ const routes: Routes = [
                         resolve:{info:AuctionDetailService}},
   {path:'ebayFees',     component:EbayFeesComponent},
   {path:'paypalFees',   component:PaypalFeesComponent},
+  {path:'confirmDel',   component:ConfirmDeliveryComponent,
+                        resolve:{info:AuctionUnDeliveredService}},
+  {path:'monthlyTotals',   component:MonthlyTotalsComponent},
   { path: '',
     redirectTo: '/active',
     pathMatch: 'full'

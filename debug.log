@@ -442,3 +442,48 @@
 [0408/102528.764:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0408/102528.764:ERROR:crash_report_database_win.cc(469)] failed to stat report
 [0408/102528.764:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/234853.338:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/234853.339:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/234853.339:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/234853.340:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.338:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.338:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.338:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.338:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.338:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.339:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.339:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0409/235853.339:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/000353.340:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/000353.341:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/000353.341:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/000353.341:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/001853.342:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/001853.343:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/001853.343:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/001853.343:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/003353.343:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/003353.344:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/003353.344:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/003353.344:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/004853.345:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/004853.345:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/004853.345:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/004853.345:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/010353.391:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/010353.391:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/010353.391:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/010353.391:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/011853.423:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/011853.423:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/011853.424:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/011853.424:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0410/131946.538:ERROR:process_reader_win.cc(182)] ResumeThread: The parameter is incorrect. (0x57)
+[0410/131946.549:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.550:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.550:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.551:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.551:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.551:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.552:ERROR:process_reader_win.cc(151)] SuspendThread: Access is denied. (0x5)
+[0410/131946.552:ERROR:exception_snapshot_win.cc(98)] thread ID 29712 not found in process

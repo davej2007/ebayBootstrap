@@ -15,23 +15,25 @@ import { AuctionTableComponent } from './components/pages/1-auction-table/auctio
 import { SoldTableComponent } from './components/pages/2-sold-table/sold-table.component';
 import { EbayFeesComponent } from './components/pages/3-ebay-fees/ebay-fees.component';
 import { PaypalFeesComponent } from './components/pages/4-paypal-fees/paypal-fees.component';
+import { ConfirmDeliveryComponent } from './components/pages/5-confirm-delivery/confirm-delivery.component';
+import { MonthlyTotalsComponent } from './components/pages/6-monthly-totals/monthly-totals.component';
 import { AuctionDetailComponent } from './components/pages/7-auction-detail/auction-detail.component';
-import { EditAuctionComponent } from './components/pages/8-edit-auction/edit-auction.component';
-import { PageNotFoundComponent } from './components/pages/9-page-not-found/page-not-found.component';
+import { EditAuctionComponent }   from './components/pages/8-edit-auction/edit-auction.component';
+import { PageNotFoundComponent }  from './components/pages/9-page-not-found/page-not-found.component';
 // pipes
-import { DisplayDatePipe } from './components/custom/pipe/display-date.pipe';
-import { DisplayPoundsPipe } from './components/custom/pipe/display-pounds.pipe';
-import { DisplayWeightPipe } from './components/custom/pipe/display-weight.pipe';
-import { FirstLastDatePipe } from './components/custom/pipe/first-last-date.pipe';
+import { DisplayDatePipe }        from './components/custom/pipe/display-date.pipe';
+import { DisplayPoundsPipe }      from './components/custom/pipe/display-pounds.pipe';
+import { DisplayWeightPipe }      from './components/custom/pipe/display-weight.pipe';
+import { FirstLastDatePipe }      from './components/custom/pipe/first-last-date.pipe';
+import { DisplayFeesPipe }        from './components/custom/pipe/display-fees.pipe';
+import { DisplayTotalIncomePipe } from './components/custom/pipe/display-total-income.pipe';
 // modals
 import { NewAuctionModalContent } from './components/pages/1-auction-table/MODALS/0-NewAuction/newAuction';
-import { UnSoldModalContent } from './components/pages/1-auction-table/MODALS/1-UnSold/unSold';
-import { SoldModalContent } from './components/pages/1-auction-table/MODALS/2-Sold/sold';
-import { PaidModalContent } from './components/pages/2-sold-table/MODALS/3-Paid/paid';
-import { PostModalContent } from './components/pages/2-sold-table/MODALS/4-Post/post';
-import { DeliveryModalContent } from './components/pages/2-sold-table/MODALS/5-Delivery/delivery';
-import { DisplayFeesPipe } from './components/custom/pipe/display-fees.pipe';
-import { DisplayTotalIncomePipe } from './components/custom/pipe/display-total-income.pipe';
+import { UnSoldModalContent }     from './components/pages/1-auction-table/MODALS/1-UnSold/unSold';
+import { SoldModalContent }       from './components/pages/1-auction-table/MODALS/2-Sold/sold';
+import { PaidModalContent }       from './components/pages/2-sold-table/MODALS/3-Paid/paid';
+import { PostModalContent }       from './components/pages/2-sold-table/MODALS/4-Post/post';
+import { DeliveryModalContent }   from './components/pages/2-sold-table/MODALS/5-Delivery/delivery';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { DisplayTotalIncomePipe } from './components/custom/pipe/display-total-i
       DeliveryModalContent,
     EbayFeesComponent,
     PaypalFeesComponent,
+    ConfirmDeliveryComponent,
+    MonthlyTotalsComponent,
     AuctionDetailComponent,
     EditAuctionComponent, 
     PageNotFoundComponent,

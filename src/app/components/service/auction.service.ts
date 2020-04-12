@@ -12,6 +12,9 @@ export class AuctionService {
   getAuctionDetails(){
     return this._HTTP.get<any>(environment.apiAuctions+'/getAuctionInfo');
   }
+  getUnDeliveredAuctionDetails(){
+    return this._HTTP.get<any>(environment.apiAuctions+'/getUnDeliveredInfo');
+  }
   getAuctionById(id:String){
     return this._HTTP.post<any>(environment.apiAuctions+'/getAuctionByID',{id:id});
   }
