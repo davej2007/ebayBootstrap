@@ -88,10 +88,10 @@ export class DeliveryTableControlService  {
     entries = entries.filter(entry => matches(entry, searchTerm));
     entries = entries.filter(entry => courierCheck(entry, this.status));
     const total = entries.length;
-
-    // 3. paginate
+    const grandTotal = null
+      // 3. paginate
     entries = entries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-    return of({entries, total});
+    return of({entries, total, grandTotal});
   }
 
 }

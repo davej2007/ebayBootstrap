@@ -90,14 +90,12 @@ export class AuctionTableControlService {
     entries = entries.filter(entry => categoryCheck(entry, this.category));
     entries = entries.filter(entry => statusCheck(entry, this.status));
     const total = entries.length;
-
+    const grandTotal = null
     // 3. paginate
     entries = entries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-    return of({entries, total});
+    return of({entries, total, grandTotal});
   }
-
 }
-
 function matches(entry: IAUCTION, term: string) {
   return entry.auction.description.toLowerCase().includes(term.toLowerCase())
 }
