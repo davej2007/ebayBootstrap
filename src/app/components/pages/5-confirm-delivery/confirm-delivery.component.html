@@ -3,6 +3,11 @@
 </h1>
 
 <form>
+    <div class="btn-group btn-group-toggle">    <!-- Courier -->
+        <button type="button" class="btn btn-outline-danger" [class.active]="checkCourierActive(-1)" (click)='tableService.status =  CourierShow'>All</button>
+        <button type="button" class="btn btn-outline-primary" [class.active]="checkCourierActive(cor)" *ngFor="let cor of CourierShow" (click)='tableService.status = [cor]'>{{ CourierList[cor] }}</button>
+    </div>
+    <br>
     <div class="form-group form-inline">
         Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="tableService.searchTerm"/>
         <span class="ml-3" *ngIf="tableService.loading$ | async">Loading...</span>
@@ -12,14 +17,10 @@
         <tr>
             <th scope="col">Status</th>
             <th scope="col">Date Sold</th>
-            <th scope="col">Category</th>
             <th scope="col">Description</th>
-            <th scope="col">Sold For</th>
-            <th scope="col">Postage<br>Paid</th>
+            <th scope="col">Post Code</th>
             <th scope="col">Courier</th>
             <th scope="col">Tracking</th>
-            <th scope="col">Courier<br>Cost</th>
-            <th scope="col">Fees</th>
             <th scope="col">Buttons</th>
         </tr>
     </thead>
@@ -27,16 +28,13 @@
     <tr *ngFor="let entry of Auctions$ | async">      
         <td>{{ StatusList[entry.status] }}</td>
         <td>{{ entry.sold.dateSold | date:'dd-MM-yy' }}</td>
-        <td>{{ CategoryList[entry.category] }}</td>
         <td class='description'>{{ entry.auction.description }}</td>
-        <td>{{ entry.sold.price | displayPounds }}</td>
-        <td>{{ entry.paid.postage | displayPounds }}</td>
+        <td>{{ entry.sold.buyer.postCode }}</td>
         <td>{{ entry.courier.company }}</td>
         <td>{{ entry.courier.trackingNo }}</td>
-        <td><span *ngIf='entry.courier.cost>0'>{{ entry.courier.cost | displayPounds }}</span></td>
-        <td>{{ entry.fee | displayFees }}</td>
-        <td>       
-            </td>
+        <td>
+            <button class="bth btn-secondary btn-sm" *ngIf='[4].indexOf(entry.status) != -1' (click)="openDelivery(entry)">Delivered</button>       
+        </td>
     </tr>
     </tbody>
     </table>

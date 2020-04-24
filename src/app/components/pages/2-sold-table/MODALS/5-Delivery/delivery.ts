@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuctionService } from 'src/app/components/service/auction.service';
+import { ConvertDate } from 'src/app/components/custom/directive/fuctions';
 
 @Component({
   selector: 'delivery-modal-content',
@@ -11,6 +12,10 @@ import { AuctionService } from 'src/app/components/service/auction.service';
 export class DeliveryModalContent implements OnInit {
   @Input() id:String;
   @Input() description:String;
+  @Input() company:String;
+  @Input() trackingNo:String;
+  @Input() dateSold:number;
+
   constructor(
     public activeModal: NgbActiveModal,
     private fb:FormBuilder,
@@ -18,11 +23,17 @@ export class DeliveryModalContent implements OnInit {
   // form Get
   get date()  { return this.DeliveredForm.get('date');   }
 
-  ngOnInit(){}
+  ngOnInit(){
+    this.dateItemSold = ConvertDate(this.dateSold)
+      this.date.setValue(this.dateItemSold)
+  }
   // Variables
   public errorMsg:String = '';
   public successMsg:String = '';
   public processing:Boolean = false;
+  public dateItemSold : string;
+  public dateMsg : string = null;
+  public dateValid = false;
 
   // Form Definition
   DeliveredForm = this.fb.group({
@@ -35,6 +46,18 @@ export class DeliveryModalContent implements OnInit {
   enableForm(){
     this.processing = false;
     this.date.enable();
+  }
+  checkDate(){
+    let lastDateValue = Date.parse(new Date(this.dateItemSold).toDateString())
+    let today = Date.parse(new Date().toDateString())
+    let dateValue = Date.parse(new Date(this.date.value).toDateString());
+    if(lastDateValue<=dateValue && dateValue <= today){
+      this.dateMsg = null;
+      this.dateValid = true;
+    } else {
+      this.dateMsg = 'Invalid Date Entered';
+      this.dateValid = false;      
+    }
   }
   submit(DeliveryDetails:any){
     this.disableForm();

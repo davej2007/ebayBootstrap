@@ -35,7 +35,7 @@ export class DeliveryTableControlService  {
     page: 1,
     pageSize: 10,
     searchTerm: '',
-    sortDirection: 'desc',
+    sortDirection: 'asc',
     category : undefined,
     status : [],
     displayDate : {month:null, year:null}
@@ -64,12 +64,14 @@ export class DeliveryTableControlService  {
   get page() { return this._state.page; }
   get pageSize() { return this._state.pageSize; }
   get searchTerm() { return this._state.searchTerm; }
+  get status() { return this._state.status; }
   get displayDate() { return this._state.displayDate; }
 
   set page(page: number) { this._set({page}); }
   set pageSize(pageSize: number) { this._set({pageSize}); }
   set searchTerm(searchTerm: string) { this._set({searchTerm}); }
   set sortDirection(sortDirection: SortDirection) { this._set({sortDirection}); }
+  set status(status: Array<number>) { this._set({status}); }
   set displayDate(displayDate: IDISPLAYDATE) { this._set({displayDate}); }
 
   private _set(patch: Partial<ISTATE>) {
@@ -84,7 +86,7 @@ export class DeliveryTableControlService  {
 
     // 2. filter
     entries = entries.filter(entry => matches(entry, searchTerm));
-    entries = entries.filter(entry => displayDateCheck(entry, this.displayDate));
+    entries = entries.filter(entry => courierCheck(entry, this.status));
     const total = entries.length;
 
     // 3. paginate
@@ -94,26 +96,13 @@ export class DeliveryTableControlService  {
 
 }
 function matches(entry: IAUCTION, term: string) {
-  return entry.auction.description.toLowerCase().includes(term.toLowerCase())
+  if(term==undefined || term==null || term =='') return true;
+  return entry.courier.trackingNo.toLowerCase().includes(term.toLowerCase())
 }
 
-function displayDateCheck(entry:IAUCTION, dd:IDISPLAYDATE){
-if(dd.month==null && dd.year==null) {
-  return true;
-} else {
-  let startDate:number = 0; let finishDate = 0;
-  startDate=Date.parse(new Date(dd.year, dd.month).toString());
-  if(dd.month==11){
-    finishDate=Date.parse(new Date(dd.year+1, 0).toString())-86400000/2
-  } else {
-    finishDate=Date.parse(new Date(dd.year, dd.month+1).toString())-86400000/2
-  }
-  if(startDate<= entry.sold.dateSold && finishDate>=entry.sold.dateSold){
-    return true;
-  } else {
-    return false
-  }
-}
-;
+function courierCheck(entry:IAUCTION, cc:any){
+  let courier = ['Collect','RoyalMail','Hermes']
+  if(cc.length == 1 && entry.courier.company != courier[cc[0]]) return false
+  return true
 }  
 

@@ -3,14 +3,17 @@
 </div>
 <div class="modal-body">
   <h4>{{ description }}</h4>
+  <h5>Delivery Company : {{ company }}</h5>
+  <h5>Tracking Number  : {{ trackingNo }}</h5>
   <form [formGroup]='DeliveredForm'>    
     <!-- date -->
     <div class="form-group row">
       <label for="date" class="col-sm-3 col-form-label">Date Delivered</label>
       <div class="col-sm-9">
-        <input [class.is-invalid]='(date.invalid) && date.touched' [class.is-valid]='date.valid && date.touched'
+        <input [class.is-invalid]='(date.invalid || !dateValid) && date.touched' [class.is-valid]='date.valid && date.touched && dateValid'
         formControlName='date' type="date" class="form-control" id="date"
-        placeholder="Date Delivered">
+        placeholder="Date Delivered" (blur)='checkDate()'>
+        {{ dateMsg }}
       </div>
     </div>
   </form>

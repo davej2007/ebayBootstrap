@@ -138,6 +138,9 @@ export class SoldTableComponent implements OnInit {
     const modalRef = this.modalService.open(DeliveryModalContent, {backdrop:'static'});
     modalRef.componentInstance.id = auction._id;
     modalRef.componentInstance.description = auction.auction.description;
+    modalRef.componentInstance.company = auction.courier.company;
+    modalRef.componentInstance.trackingNo = auction.courier.trackingNo;
+    modalRef.componentInstance.dateSold = auction.sold.dateSold;
     modalRef.result.then(
       res => {
         if(res.success){

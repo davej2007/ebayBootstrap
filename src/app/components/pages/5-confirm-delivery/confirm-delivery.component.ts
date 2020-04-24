@@ -9,6 +9,7 @@ import { STATUS, CATEGORIES } from '../../custom/defaultValues';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuctionService } from '../../service/auction.service';
 import { DeliveryTableControlService } from '../../service/delivery-table-control.service';
+import { DeliveryModalContent } from '../2-sold-table/MODALS/5-Delivery/delivery';
 
 @Component({
   selector: 'confirm-delivery',
@@ -20,7 +21,7 @@ export class ConfirmDeliveryComponent implements OnInit {
   Auctions$: Observable<IAUCTION[]>;
   total$: Observable<number>;
 
-  @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
+  // @ViewChildren(NgbdSortableHeader) headers: QueryList<NgbdSortableHeader>;
 
   constructor(
     public tableService: DeliveryTableControlService,
@@ -35,28 +36,14 @@ export class ConfirmDeliveryComponent implements OnInit {
 
   public StatusList   : any = STATUS;
   public CategoryList : any = CATEGORIES;
-  public StatusShow   : Array<number>;
-  public DisplayShow  : Array<IDISPLAYDATE>= [];
-  public display      : IDISPLAYDATE = { month: null, year: null }
-  public MONTHS       : Array<string> = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-  
-  ngOnInit(): void {
-    let date:Date = new Date();
-    let currentmonth:number = date.getMonth();
-    let currentyear:number = date.getUTCFullYear();
-    let y:number= 2019;
-    let m:number = 10;
-    while ( currentyear>y || currentmonth>=m ) {
-      this.DisplayShow.push({month:m,year:y});
-      if(m==11){
-        m=0;y++
-      } else {
-        m++
-      }
-    }
+  public CourierShow  : Array<number> = [0,1,2]
+  public CourierList  : any = ['Collect','RoyalMail','Hermes']
+
+  ngOnInit(): void {    
+    this.tableService.status =  this.CourierShow;    
+    this.tableService.searchTerm = '';
     this.activatedRoute.data.subscribe(
       data=>{
-        console.log(data)
         if(data.info.success){
           this.tableService.AUCTIONS = data.info.auctions;
         } else {
@@ -68,21 +55,44 @@ export class ConfirmDeliveryComponent implements OnInit {
       }
     )
   }
-
-  onSort({column, direction}: SortEvent) {
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-    this.tableService.sortDirection = direction;
-  }
-  checkDisplayDate(en:any){
-    if(this.tableService.displayDate.month == en.month && this.tableService.displayDate.year == en.year){
-      return true
-    } else {
+  checkCourierActive(st:any){
+    if(this.tableService.status.length==1 && this.tableService.status[0] != st) {
       return false
+    } else if(this.tableService.status.length>1 && st!=-1) {
+      return false
+    } else {
+      return true
     }
+  }
+  openDelivery(auction:IAUCTION){
+    console.log(auction);
+    const modalRef = this.modalService.open(DeliveryModalContent, {backdrop:'static'});
+    modalRef.componentInstance.id = auction._id;
+    modalRef.componentInstance.description = auction.auction.description;
+    modalRef.componentInstance.company = auction.courier.company;
+    modalRef.componentInstance.trackingNo = auction.courier.trackingNo;
+    modalRef.componentInstance.dateSold = auction.sold.dateSold;
+    modalRef.result.then(
+      res => {
+        if(res.success){
+          this.reloadTableData()
+        } else {
+          console.log('Error from Modal : ', res)
+        }
+      }
+    );
+  }
+  reloadTableData(){
+    this._auction.getUnDeliveredAuctionDetails().subscribe(
+      data=>{
+        if(data.success){
+          this.tableService.AUCTIONS = data.auctions;
+          this.tableService.searchTerm = '';
+        } else {
+          console.log(data.message)
+        }
+      },
+      err=>{console.log(err)}
+      )
   }
 }
