@@ -12,6 +12,7 @@ import { PaypalFeesComponent } from './components/pages/4-paypal-fees/paypal-fee
 import { ConfirmDeliveryComponent } from './components/pages/5-confirm-delivery/confirm-delivery.component';
 import { MonthlyTotalsComponent } from './components/pages/6-monthly-totals/monthly-totals.component';
 import { AuctionUnDeliveredService } from './components/resolver/auction-un-delivered.service';
+import { AuctionSoldService } from './components/resolver/auction-sold.service';
 
 const routes: Routes = [
   {path:'active',       component: AuctionTableComponent,
@@ -28,7 +29,8 @@ const routes: Routes = [
   {path:'paypalFees',   component:PaypalFeesComponent},
   {path:'confirmDel',   component:ConfirmDeliveryComponent,
                         resolve:{info:AuctionUnDeliveredService}},
-  {path:'monthlyTotals',   component:MonthlyTotalsComponent},
+  {path:'monthlyTotals',  component:MonthlyTotalsComponent,
+                          resolve:{info:AuctionSoldService}},
   { path: '',
     redirectTo: '/active',
     pathMatch: 'full'

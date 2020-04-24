@@ -6,8 +6,9 @@ import { NgbdSortableHeader, SortEvent } from '../../custom/directive/sortable.d
 import { IAUCTION } from '../../custom/interface/auction';
 import { IDISPLAYDATE } from '../../custom/interface/state';
 import { STATUS, CATEGORIES } from '../../custom/defaultValues';
-import { SoldTableControlService } from '../../service/sold-table-control.service';
+import { SoldTableControlService } from '../../service/table-control-sold.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Months } from '../../custom/directive/fuctions';
 import { AuctionService } from '../../service/auction.service';
 import { PaidModalContent } from './MODALS/3-Paid/paid';
 import { PostModalContent } from './MODALS/4-Post/post';
@@ -41,7 +42,7 @@ export class SoldTableComponent implements OnInit {
   public StatusShow   : Array<number>;
   public DisplayShow  : Array<IDISPLAYDATE>= [];
   public display      : IDISPLAYDATE = { month: null, year: null }
-  public MONTHS       : Array<string> = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  public MONTHS       : Array<string> = Months
   
   ngOnInit(): void {
     let date:Date = new Date();

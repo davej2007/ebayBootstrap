@@ -91,10 +91,11 @@ export class SoldTableControlService {
       entries = entries.filter(entry => statusCheck(entry, this.status));
       entries = entries.filter(entry => displayDateCheck(entry, this.displayDate));
       const total = entries.length;
+      const grandTotal = null
   
       // 3. paginate
       entries = entries.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize);
-      return of({entries, total});
+      return of({entries, total, grandTotal});
     }
   
 }
@@ -131,6 +132,5 @@ function displayDateCheck(entry:IAUCTION, dd:IDISPLAYDATE){
     } else {
       return false
     }
-  }
-  ;
+  };
 }  

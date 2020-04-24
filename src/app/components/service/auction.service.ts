@@ -12,6 +12,9 @@ export class AuctionService {
   getAuctionDetails(){
     return this._HTTP.get<any>(environment.apiAuctions+'/getAuctionInfo');
   }
+  getSoldAuctionDetails(){
+    return this._HTTP.get<any>(environment.apiAuctions+'/getSoldAuctionInfo');
+  }
   getUnDeliveredAuctionDetails(){
     return this._HTTP.get<any>(environment.apiAuctions+'/getUnDeliveredInfo');
   }

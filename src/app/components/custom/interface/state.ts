@@ -4,6 +4,7 @@ import { IAUCTION } from './auction';
 export interface ISEARCHRESULT {
   entries: IAUCTION[];
   total: number;
+  grandTotal:number;
 }
 export interface IDISPLAYDATE {
   month:number,

@@ -8,7 +8,7 @@ import { IDISPLAYDATE } from '../../custom/interface/state';
 import { STATUS, CATEGORIES } from '../../custom/defaultValues';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuctionService } from '../../service/auction.service';
-import { DeliveryTableControlService } from '../../service/delivery-table-control.service';
+import { DeliveryTableControlService } from '../../service/table-control-delivery.service';
 import { DeliveryModalContent } from '../2-sold-table/MODALS/5-Delivery/delivery';
 
 @Component({

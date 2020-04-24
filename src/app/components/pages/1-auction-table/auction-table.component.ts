@@ -6,7 +6,7 @@ import { NgbdSortableHeader, SortEvent } from '../../custom/directive/sortable.d
 
 import { STATUS, CATEGORIES } from '../../custom/defaultValues';
 import { IAUCTION } from '../../custom/interface/auction';
-import { AuctionTableControlService } from '../../service/auction-table-control.service';
+import { AuctionTableControlService } from '../../service/table-control-auction.service';
 import { AuctionService } from '../../service/auction.service';
 import { NewAuctionModalContent } from './MODALS/0-NewAuction/newAuction';
 import { UnSoldModalContent } from './MODALS/1-UnSold/unSold';
