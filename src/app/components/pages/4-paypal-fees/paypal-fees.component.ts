@@ -11,6 +11,8 @@ export interface IFEESINPUT {
   description   : string,
   buyerName     : string,
   buyerUserName : string,
+  soldFor       : number,
+  paidPostage   : number,
   uploaded      : boolean,
   error         : boolean
   }
@@ -35,6 +37,8 @@ export class PaypalFeesComponent implements OnInit {
   get description()   { return this.FeeForm.get('description');   }
   get buyerName()     { return this.FeeForm.get('buyerName');     }
   get buyerUserName() { return this.FeeForm.get('buyerUserName'); }
+  get soldFor()       { return this.FeeForm.get('soldFor'); }
+  get paidPostage()   { return this.FeeForm.get('paidPostage'); }
 
   ngOnInit(): void {
   }
@@ -56,7 +60,9 @@ export class PaypalFeesComponent implements OnInit {
     paypalFee         : [ null ],
     description       : [ null ],
     buyerName         : [ null ],
-    buyerUserName     : [ null ]
+    buyerUserName     : [ null ],
+    soldFor           : [ null ],
+    paidPostage       : [ null ]
   })
   disableForm(){
     this.processing =true;
@@ -80,7 +86,9 @@ export class PaypalFeesComponent implements OnInit {
       this.paypalFee.setValue(this.PayPalFeeList[index].paypalFee);
       this.description.setValue(this.PayPalFeeList[index].description);
       this.buyerName.setValue(this.PayPalFeeList[index].buyerName);
-      this.buyerUserName.setValue(this.PayPalFeeList[index].buyerUserName);
+      this.buyerUserName.setValue(this.PayPalFeeList[index].buyerUserName);      
+      this.soldFor.setValue(this.PayPalFeeList[index].soldFor);
+      this.paidPostage.setValue(this.PayPalFeeList[index].paidPostage);
       this.ebayAuctionValid = true;
       this.ebayAuctionError = '';
     } else {
@@ -94,7 +102,9 @@ export class PaypalFeesComponent implements OnInit {
             this.paypalFee.setValue(data.auction.fee.paypalFee.cost);
             this.description.setValue(data.auction.auction.description);
             this.buyerName.setValue(data.auction.sold.buyer.name);
-            this.buyerUserName.setValue(data.auction.sold.buyer.userName);          
+            this.buyerUserName.setValue(data.auction.sold.buyer.userName);
+            this.soldFor.setValue(data.auction.sold.price);
+            this.paidPostage.setValue(data.auction.paid.postage);                
             this.ebayAuctionValid = true;
             this.ebayAuctionError = '';
           } else {
@@ -108,7 +118,9 @@ export class PaypalFeesComponent implements OnInit {
                   this.paypalFee.setValue(data.auction.fee.paypalFee.cost);
                   this.description.setValue(data.auction.auction.description);
                   this.buyerName.setValue(data.auction.sold.buyer.name);
-                  this.buyerUserName.setValue(data.auction.sold.buyer.userName);          
+                  this.buyerUserName.setValue(data.auction.sold.buyer.userName);
+                  this.soldFor.setValue(data.auction.sold.price);
+                  this.paidPostage.setValue(data.auction.paid.postage);
                   this.ebayAuctionValid = true;
                   this.ebayAuctionError = '';
                 } else {
@@ -119,6 +131,8 @@ export class PaypalFeesComponent implements OnInit {
                   this.description.setValue(null);
                   this.buyerName.setValue(null);
                   this.buyerUserName.setValue(null);
+                  this.soldFor.setValue(null);
+                  this.paidPostage.setValue(null);                
                   this.ebayAuctionValid = false;
                   this.ebayAuctionError = data.message;                  
                 }
@@ -139,7 +153,7 @@ export class PaypalFeesComponent implements OnInit {
     if(feeData.placeInArray !== undefined){
       this.PayPalFeeList[feeData.placeInArray].paypalFee = feeData.paypalFee;
       this.PayPalFeeList[feeData.placeInArray].paypalSet = feeData.paypalSet;
-      this.successMsg = 'Udpated Fees List';
+      this.successMsg = 'Updated Fees List';
       setTimeout(()=>{
         this.successMsg = '';
         this.FeeForm.reset();

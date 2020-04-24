@@ -34,7 +34,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let entry of Auctions$ | async">      
+    <tr *ngFor="let entry of Auctions$ | async"
+        [ngClass]="{'draft':isDraft(entry.status), 'inactive':needToRenew(entry)}">      
       <td *ngIf='tableService.status.length>1'>{{ StatusList[entry.status] }}</td>
       <td>{{ entry.auction.dateListed | chooseDate : 0}}</td>
       <td>{{ entry.auction.dateListed | chooseDate : 1}}</td>

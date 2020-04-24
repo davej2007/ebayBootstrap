@@ -1,11 +1,12 @@
 <table class="table">
     <thead>
         <tr>
-            <th scope="col">Auction<br>Number</th>
-            <th scope="col">Description</th>
-            <th scope="col">Buyer<br>UserName</th>
-            <th scope="col">Buyer<br>Name</th>
-            <th scope="col">Pay Pal<br>Fee</th>
+            <th>Auction<br>Number</th>
+            <th>Description</th>
+            <th>Buyer<br>UserName</th>
+            <th>Buyer<br>Name</th>
+            <th>Pay Pal<br>Fee</th>
+            <th>Total</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +19,7 @@
             <td>{{ entry.buyerUserName }}</td>
             <td>{{ entry.buyerName }}</td>
             <td>{{ entry.paypalFee | displayPounds }}</td>
+            <td>{{ (entry.soldFor + entry.paidPostage - entry.paypalFee) | displayPounds }}</td>
         </tr>
     </tbody>
 </table>
@@ -49,25 +51,36 @@
         </div>
         <!-- buyerName -->
         <div class="form-group row">
-            <label for="buyerName" class="col-sm-3 col-form-label">Buyer's Name</label>
-            <div class="col-sm-9">
+            <label for="buyerName" class="col-sm-3 col-form-label">Buyer</label>
+            <div class="col-sm-3">
+                <p class="form-control is-valid" id="buyerName">{{ buyerUserName.value }}</p>
+            </div>
+            <div class="col-sm-6">
                 <p class="form-control is-valid" id="buyerName">{{ buyerName.value }}</p>
             </div>
         </div>
-        <!-- buyerUserName -->
+        <!-- soldFor -->
         <div class="form-group row">
-            <label for="buyerUserName" class="col-sm-3 col-form-label">Buyer's User Name</label>
-            <div class="col-sm-9">
-                <p class="form-control is-valid" id="buyerUserName">{{ buyerUserName.value }}</p>
+            <label for="soldFor" class="col-sm-3 col-form-label">Purchase For</label>
+            <div class="col-sm-3">
+                <p class="form-control is-valid" id="soldFor">{{ soldFor.value }}</p>
+            </div>
+            <label for="paidPostage" class="col-sm-3 col-form-label">Courier Cost</label>
+            <div class="col-sm-3">
+                <p class="form-control is-valid" id="paidPostage">{{ paidPostage.value }}</p>
             </div>
         </div>
     </div>
     <!-- paypalFee -->
     <div class="form-group row" *ngIf='paypalSet.value && ebayAuctionValid'>
         <label for="paypalFee" class="col-sm-3 col-form-label">Pay Pal Fee</label>
-        <div class="col-sm-9">
+        <div class="col-sm-3">
             <input formControlName='paypalFee' type="number" class="form-control" id="paypalFee"
             placeholder="Pay Pal Fee">
+        </div>
+        <label for="total" class="col-sm-3 col-form-label">Total</label>
+        <div class="col-sm-3">
+            <p class="form-control is-valid" id="total">{{ (soldFor.value + paidPostage.value - paypalFee.value) }}</p>
         </div>
     </div>
 </form>

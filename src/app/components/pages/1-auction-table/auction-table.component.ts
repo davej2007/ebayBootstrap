@@ -11,6 +11,7 @@ import { AuctionService } from '../../service/auction.service';
 import { NewAuctionModalContent } from './MODALS/0-NewAuction/newAuction';
 import { UnSoldModalContent } from './MODALS/1-UnSold/unSold';
 import { SoldModalContent } from './MODALS/2-Sold/sold';
+import { aWeekIs, aDayIs } from '../../custom/directive/fuctions';
 
 @Component({
   selector: 'auctionTable',
@@ -38,8 +39,8 @@ export class AuctionTableComponent implements OnInit{
   public StatusList : any = STATUS;
   public CategoryList : any = CATEGORIES;
   public StatusShow : [number];
-  public display : {month:number, year:number} = {month:null, year:null}
-
+  // public display : {month:number, year:number} = {month:null, year:null}
+  public toDay : number = Date.parse(new Date().toDateString())
   ngOnInit(){
     this.activatedRoute.data.subscribe(
       data=>{
@@ -76,6 +77,14 @@ export class AuctionTableComponent implements OnInit{
     } else {
       return true
     }
+  }
+  needToRenew(entry:any){
+    if (entry.status !=0 && entry.auction.dateListed[entry.auction.dateListed.length-1]+aDayIs*8<this.toDay) return true
+    return false;
+  }
+  isDraft(d:number){
+    if(d==0) return true;
+    return false
   }
   // Modal Buttons
   openUnsold(auction:IAUCTION){
